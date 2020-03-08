@@ -3,11 +3,11 @@ import subprocess
 from .base import Extractor
 from .base import ManPageFetch
 from .base import CommandCheck
-from .base import GroffExtract
+from .base import SectionExtract
 
 
 
-class Zathura(GroffExtract, ManPageFetch, CommandCheck, Extractor):
+class Zathura(SectionExtract, ManPageFetch, CommandCheck, Extractor):
     cmd = 'zathura'
     has_modes = True
 

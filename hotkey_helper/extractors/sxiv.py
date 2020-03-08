@@ -2,10 +2,10 @@
 from .base import Extractor
 from .base import ManPageFetch
 from .base import CommandCheck
-from .base import GroffExtract
+from .base import SectionExtract
 
 
-class Sxiv(GroffExtract, ManPageFetch, CommandCheck, Extractor):
+class Sxiv(SectionExtract, ManPageFetch, CommandCheck, Extractor):
     cmd = 'sxiv'
     has_modes = True
 

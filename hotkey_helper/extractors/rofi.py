@@ -1,10 +1,10 @@
 from .base import Extractor
 from .base import CommandCheck
-from .base import GroffExtract
+from .base import SectionExtract
 from .base import ManPageFetch
 
 
-class Rofi(GroffExtract, ManPageFetch, CommandCheck, Extractor):
+class Rofi(SectionExtract, ManPageFetch, CommandCheck, Extractor):
     cmd = 'rofi'
     has_modes = False
 

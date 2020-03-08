@@ -60,14 +60,10 @@ class CommandCheck:
         if which(self.cmd) is None:
             raise OSError(f'Command {self.cmd} not found.')
 
-class GroffExtract:
+class SectionExtract:
     def find_sections(self, content, pattern='\.SH'):
         sections = self.find_between(content, pattern)
         return dict([self.split_title(s) for s in sections])
-
-    def subsections(self, content, pattern='\.sp'):
-        subsections = self.find_between(pattern, content)
-        return dict([self.split_title(s) for s in subsections])
 
     @staticmethod
     def find_between(content, pattern):
