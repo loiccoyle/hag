@@ -13,7 +13,7 @@ class Sxhkd(FileFetch, CommandCheck, Extractor):
     if 'XDG_CONFIG_HOME' in os.environ:
         file_path = Path(os.environ['XDG_CONFIG_HOME']) / 'sxhkd' / 'sxhkdrc'
     else:
-        file_path = Path(os.environ['HOME']) / 'sxhkd' / 'sxhkdrc'
+        file_path = Path(os.environ['HOME']) / '.config' / 'sxhkd' / 'sxhkdrc'
 
     @staticmethod
     def _clean_fetched(content):
