@@ -14,7 +14,6 @@ class Rofi(GroffExtract, ManPageFetch, CommandCheck, Extractor):
         string = string.replace('\\', '')
         if string[-1] != '.':
             string += '.'
-        # string.replace('\\fB', '')
         return string.strip()
 
     @staticmethod
