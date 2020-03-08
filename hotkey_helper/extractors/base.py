@@ -2,10 +2,9 @@ import re
 import gzip
 import subprocess
 
+from shutil import which
 from types import GeneratorType
 from abc import abstractmethod
-
-from ..util import check_cmd
 
 
 class Extractor:
@@ -58,7 +57,7 @@ class FileFetch:
 class CommandCheck:
     def __init__(self):
         super().__init__()
-        if not check_cmd(self.cmd):
+        if which(self.cmd) is None:
             raise OSError(f'Command {self.cmd} not found.')
 
 class GroffExtract:

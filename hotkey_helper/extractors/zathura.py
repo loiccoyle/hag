@@ -4,7 +4,6 @@ from .base import Extractor
 from .base import ManPageFetch
 from .base import CommandCheck
 from .base import GroffExtract
-from ..util import check_cmd
 
 
 

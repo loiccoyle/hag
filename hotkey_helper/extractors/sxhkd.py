@@ -5,7 +5,6 @@ from pathlib import Path
 from .base import Extractor
 from .base import CommandCheck
 from .base import FileFetch
-from ..util import check_cmd
 
 
 class Sxhkd(FileFetch, CommandCheck, Extractor):
