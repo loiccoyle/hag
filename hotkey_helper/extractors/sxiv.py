@@ -11,16 +11,15 @@ class Sxiv(GroffExtract, ManPageFetch, CommandCheck, Extractor):
 
     @staticmethod
     def _clean_action(string):
-        string = string.replace('\" , \" ', '')
-        if '\n' in string:
-            string = string[:string.index('\n')]
+        string = string.replace('\" , \" ', '').replace('.IR', '').replace('.I', '').replace('\n', '')
+        if '.TP' in string:
+            string = string[:string.index('.TP')]
         return string
 
     @staticmethod
     def _clean_key(string):
-        string = string.replace('\", \" ', '')
-        string = string.replace('^', 'ctrl+').replace(' \\- ', '-').replace('\\(aq', '\'')
-        string = ', '.join(string.split())
+        string = string.replace(' , ', ',')
+        string = string.replace('\-', '-')
         return string
 
     def _extract(self):
