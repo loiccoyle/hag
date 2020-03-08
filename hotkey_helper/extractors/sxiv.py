@@ -26,7 +26,7 @@ class Sxiv(GroffExtract, ManPageFetch, CommandCheck, Extractor):
 
     def _extract(self):
         ht_section = self.find_sections(self.fetched,
-                                       pattern='\.SH')['KEYBOARD COMMANDS']
+                                        pattern='\.SH')['KEYBOARD COMMANDS']
         modes = self.find_sections(ht_section, pattern='\.SS')
         # uniform key anchors
         for m, content in modes.items():

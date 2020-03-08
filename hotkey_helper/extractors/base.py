@@ -1,4 +1,4 @@
-import re;
+import re
 import gzip
 import subprocess
 
