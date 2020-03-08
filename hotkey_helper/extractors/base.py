@@ -43,9 +43,21 @@ class ManPageFetch:
             lines = gfp.read()
         return lines.decode('utf8')
 
+class FileFetch:
+    def __init__(self):
+        super().__init__()
+        if not self.file_path.is_file():
+            raise OSError(f'{self.file_path} does not exist.')
+
+    def _fetch(self):
+        with open(self.file_path, 'r') as fp:
+            lines = fp.read()
+        return lines
+
 
 class CommandCheck:
     def __init__(self):
+        super().__init__()
         if not check_cmd(self.cmd):
             raise OSError(f'Command {self.cmd} not found.')
 
