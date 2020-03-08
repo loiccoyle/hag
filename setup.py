@@ -17,11 +17,11 @@ setup(name='hotkey_helper',
       description=DESCRIPTION,
       long_description=LONG_DESCRIPTION,
       packages=['hotkey_helper'],
-      # entry_points={
-      #     'console_scripts': [
-      #         'thqm = thqm.__main__:main'
-      #     ]
-      # },
+      entry_points={
+          'console_scripts': [
+              'hkh = hotkey_helper.__main__:main'
+          ]
+      },
       install_requires=REQUIREMENTS,
       python_requires='>=3.6',
       setup_requires=['setuptools_scm'],
