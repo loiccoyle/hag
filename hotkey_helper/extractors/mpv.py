@@ -19,7 +19,7 @@ class Mpv(SectionExtract, ManPageFetch, CommandCheck, Extractor):
 
     @staticmethod
     def _clean_key(string):
-        string = re.sub(r'\\(ga', '`', string)
+        string = re.sub(r'\\\(ga', '`', string)
         string = re.sub(r'(\\\&?)', '', string)
         string = re.sub(r' and ', ', ', string)
         return string
