@@ -41,7 +41,12 @@ def main():
             print(i.lower())
     elif args.list_extractors:
         for i in extractors.__all__:
-            print(i.lower())
+            try:
+                # if the install check passes
+                getattr(extractors, i)()
+                print(i.lower())
+            except OSError:
+                pass
     else:
         if args.extractor is None:
              parser.print_help()
