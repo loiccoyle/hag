@@ -1,4 +1,5 @@
 import re
+import shlex
 import gzip
 import subprocess
 
@@ -42,6 +43,12 @@ class ManPageFetch:
             lines = gfp.read()
         return lines.decode('utf8')
 
+
+class CommandFetch:
+    def _fetch(self):
+        return subprocess.check_output(shlex.split(self.fetch_cmd)).decode('utf8')
+
+
 class FileFetch:
     def __init__(self):
         super().__init__()
@@ -59,6 +66,7 @@ class CommandCheck:
         super().__init__()
         if which(self.cmd) is None:
             raise OSError(f'Command {self.cmd} not found.')
+
 
 class SectionExtract:
     def find_sections(self, content, pattern='\.SH'):

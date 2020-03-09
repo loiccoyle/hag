@@ -1,35 +1,30 @@
+import re
+
 from .base import Extractor
 from .base import CommandCheck
-from .base import SectionExtract
-from .base import ManPageFetch
+from .base import CommandFetch
 
 
-class Rofi(SectionExtract, ManPageFetch, CommandCheck, Extractor):
+class Rofi(CommandFetch, CommandCheck, Extractor):
     cmd = 'rofi'
+    fetch_cmd = 'rofi -dump-config'
     has_modes = False
 
     @staticmethod
-    def _clean_action(string):
-        string = string.replace('\\fB', '').replace('\\fR', '')
-        string = string.replace('\\', '')
-        if string[-1] != '.':
-            string += '.'
-        return string.strip()
-
-    @staticmethod
     def _clean_key(string):
-        string = string.replace('\-', '-').replace('\\fB', '').replace('\\fR', '')
+        string = string.lstrip()[1:-1]
         return string
 
     def _extract(self):
-        ht_section = self.find_sections(self.fetched,
-                                        pattern='\.SH')['KEY BINDINGS']
+        line_match = re.compile(r'(/\*)?\t((kb)|(me)|(ml))')
+        line_clean = re.compile(r'((/\*)|(\*/)|(\t)|(;))')
         out = {}
-        for line in ht_section.split('\n'):
-            if line.startswith('\\fB') and 'has the following key bindings' not in line:
+        for line in self.fetched.split('\n'):
+            if re.match(line_match, line):
+                line = re.sub(line_clean, '', line)
                 line_split = line.split(':')
-                key = self._clean_key(line_split[0])
-                action = self._clean_action(line_split[1])
+                key = self._clean_key(line_split[1])
+                action = line_split[0]
                 out[key] = action
         return out
 
