@@ -17,7 +17,7 @@ class Rofi(SectionExtract, ManPageFetch, CommandCheck, Extractor):
         return string.strip()
 
     @staticmethod
-    def _clean_keys(string):
+    def _clean_key(string):
         string = string.replace('\-', '-').replace('\\fB', '').replace('\\fR', '')
         return string
 
@@ -28,7 +28,7 @@ class Rofi(SectionExtract, ManPageFetch, CommandCheck, Extractor):
         for line in ht_section.split('\n'):
             if line.startswith('\\fB') and 'has the following key bindings' not in line:
                 line_split = line.split(':')
-                key = self._clean_keys(line_split[0])
+                key = self._clean_key(line_split[0])
                 action = self._clean_action(line_split[1])
                 out[key] = action
         return out
