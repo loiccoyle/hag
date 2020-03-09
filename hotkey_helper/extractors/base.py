@@ -35,6 +35,13 @@ class Extractor:
         return self
 
 
+class CommandCheck:
+    def __init__(self):
+        super().__init__()
+        if which(self.cmd) is None:
+            raise OSError(f'Command {self.cmd} not found.')
+
+
 class ManPageFetch:
     def _fetch(self):
         man_page_path = subprocess.check_output(['man', '-w', self.cmd]).decode('utf8')
@@ -52,20 +59,36 @@ class CommandFetch:
 class FileFetch:
     def __init__(self):
         super().__init__()
-        if not self.file_path.is_file():
-            raise OSError(f'{self.file_path} does not exist.')
+        if isinstance(self.file_path, dict):
+            check_files = [[path] if not isinstance(path, list) else path for path in self.file_path.values()]
+            # concatenate all the lists
+            check_files = sum(check_files, [])
+        elif not isinstance(self.file_path, list):
+            check_files = [self.file_path]
+
+        if not any([path.is_file() for path in check_files]):
+            raise OSError(f'File(s) {", ".join(check_files)} not found.')
+
+    @staticmethod
+    def _fetch_first(path_list):
+        if not isinstance(path_list, list):
+            path_list = [path_list]
+
+        for path in path_list:
+            if path.is_file():
+                with open(path, 'r') as fp:
+                    return fp.read()
 
     def _fetch(self):
-        with open(self.file_path, 'r') as fp:
-            lines = fp.read()
-        return lines
-
-
-class CommandCheck:
-    def __init__(self):
-        super().__init__()
-        if which(self.cmd) is None:
-            raise OSError(f'Command {self.cmd} not found.')
+        if isinstance(self.file_path, dict):
+            out = {}
+            for k, path in self.file_path.items():
+                content = self._fetch_first(path)
+                if content is not None:
+                    out[k] = content
+        else:
+            out = self._fetch_first(self.file_path)
+        return out
 
 
 class SectionExtract:
