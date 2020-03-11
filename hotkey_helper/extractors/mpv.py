@@ -30,7 +30,8 @@ class Mpv(Extractor):
         out = {}
         line_ignore = re.compile(r'#\S')
         line_remove = re.compile(r'#default-bindings.*')
-        for content in self.fetched.values():
+        # extract from all the fetched files
+        for content in sum(self.fetched.values(), []):
             if content:
                 content = re.sub(line_remove, '', content[0])
                 for line in content.split('\n'):
