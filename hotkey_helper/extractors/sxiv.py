@@ -1,12 +1,13 @@
 
 from .base import Extractor
-from .base import ManPageFetch
-from .base import CommandCheck
 from .base import SectionExtract
+from .base import Command
+from .base import Manpage
 
 
-class Sxiv(SectionExtract, ManPageFetch, CommandCheck, Extractor):
-    cmd = 'sxiv'
+class Sxiv(SectionExtract, Extractor):
+    required = [Command('sxiv')]
+    sources = {'default': [Manpage('sxiv')]}
     has_modes = True
 
     @staticmethod
@@ -23,7 +24,7 @@ class Sxiv(SectionExtract, ManPageFetch, CommandCheck, Extractor):
         return string
 
     def _extract(self):
-        ht_section = self.find_sections(self.fetched,
+        ht_section = self.find_sections(self.fetched['default'][0],
                                         pattern='\.SH')['KEYBOARD COMMANDS']
         modes = self.find_sections(ht_section, pattern='\.SS')
         # uniform key anchors

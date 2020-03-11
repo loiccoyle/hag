@@ -1,13 +1,12 @@
 import re
 
 from .base import Extractor
-from .base import CommandCheck
-from .base import CommandFetch
+from .base import Command
 
 
-class Rofi(CommandFetch, CommandCheck, Extractor):
-    cmd = 'rofi'
-    fetch_cmd = 'rofi -dump-config'
+class Rofi(Extractor):
+    required = [Command('rofi')]
+    sources = {'user': [Command('rofi -dump-config')]}
     has_modes = False
 
     @staticmethod
@@ -19,7 +18,7 @@ class Rofi(CommandFetch, CommandCheck, Extractor):
         line_match = re.compile(r'(/\*)?\t((kb)|(me)|(ml))')
         line_clean = re.compile(r'((/\*)|(\*/)|(\t)|(;))')
         out = {}
-        for line in self.fetched.split('\n'):
+        for line in self.fetched['user'][0].split('\n'):
             if re.match(line_match, line):
                 line = re.sub(line_clean, '', line)
                 line_split = line.split(':')

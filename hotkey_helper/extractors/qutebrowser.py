@@ -3,8 +3,6 @@ import os
 from pathlib import Path
 
 from .base import Extractor
-from .base import CommandCheck
-from .base import FileFetch
 from .base import Command
 from .base import File
 

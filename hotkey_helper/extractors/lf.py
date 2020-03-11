@@ -1,8 +1,6 @@
 import re
 
 from .base import Extractor
-from .base import CommandCheck
-from .base import CommandFetch
 from .base import Command
 
 

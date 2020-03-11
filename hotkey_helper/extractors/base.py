@@ -92,62 +92,6 @@ class Manpage:
 # potential sources: url/web
 
 
-class CommandCheck:
-    def __init__(self):
-        super().__init__()
-        if which(self.check_cmd) is None:
-            raise OSError(f'Command {self.check_cmd} not found.')
-
-
-class ManPageFetch:
-    def _fetch(self):
-        man_page_path = subprocess.check_output(['man', '-w', self.cmd]).decode('utf8')
-        man_page_path = man_page_path.rstrip()
-        with gzip.open(man_page_path, 'rb') as gfp:
-            lines = gfp.read()
-        return lines.decode('utf8')
-
-
-class CommandFetch:
-    def _fetch(self):
-        return subprocess.check_output(shlex.split(self.fetch_cmd)).decode('utf8')
-
-
-class FileFetch:
-    def __init__(self):
-        super().__init__()
-        if isinstance(self.file_path, dict):
-            check_files = [[path] if not isinstance(path, list) else path for path in self.file_path.values()]
-            # concatenate all the lists
-            check_files = sum(check_files, [])
-        elif not isinstance(self.file_path, list):
-            check_files = [self.file_path]
-
-        if not any([path.is_file() for path in check_files]):
-            raise OSError(f'File(s) {", ".join(check_files)} not found.')
-
-    @staticmethod
-    def _fetch_first(path_list):
-        if not isinstance(path_list, list):
-            path_list = [path_list]
-
-        for path in path_list:
-            if path.is_file():
-                with open(path, 'r') as fp:
-                    return fp.read()
-
-    def _fetch(self):
-        if isinstance(self.file_path, dict):
-            out = {}
-            for k, path in self.file_path.items():
-                content = self._fetch_first(path)
-                if content is not None:
-                    out[k] = content
-        else:
-            out = self._fetch_first(self.file_path)
-        return out
-
-
 class SectionExtract:
     def find_sections(self, content, pattern='\.SH'):
         sections = self.find_between(content, pattern)

@@ -1,8 +1,6 @@
 import subprocess
 
 from .base import Extractor
-from .base import ManPageFetch
-from .base import CommandCheck
 from .base import SectionExtract
 from .base import Command
 from .base import Manpage

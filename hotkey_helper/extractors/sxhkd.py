@@ -3,17 +3,14 @@ import re
 from pathlib import Path
 
 from .base import Extractor
-from .base import CommandCheck
-from .base import FileFetch
+from .base import Command
+from .base import File
 
 
-class Sxhkd(FileFetch, CommandCheck, Extractor):
-    cmd = 'sxhkd'
+class Sxhkd(Extractor):
+    required = [Command('sxhkd')]
+    sources = {'user': [File(Path(os.environ['XDG_CONFIG_HOME']) / 'sxhkd' / 'sxhkdrc')]}
     had_modes = False
-    if 'XDG_CONFIG_HOME' in os.environ:
-        file_path = Path(os.environ['XDG_CONFIG_HOME']) / 'sxhkd' / 'sxhkdrc'
-    else:
-        file_path = Path(os.environ['HOME']) / '.config' / 'sxhkd' / 'sxhkdrc'
 
     @staticmethod
     def _clean_fetched(content):
@@ -33,7 +30,7 @@ class Sxhkd(FileFetch, CommandCheck, Extractor):
         return string
 
     def _extract(self):
-        fetched = self._clean_fetched(self.fetched)
+        fetched = self._clean_fetched(self.fetched['user'][0])
         fetched = iter(fetched)
         return {self._clean_key(key): self._clean_action(next(fetched)) for key in fetched}
 
