@@ -4,29 +4,33 @@ import gzip
 import subprocess
 
 from shutil import which
+from pathlib import Path
 from types import GeneratorType
 from abc import abstractmethod
 
 
 class Extractor:
     has_modes = None  # boolean
+    sources = None  # dict of sources
+    required = None  # None or list of sources at least one of these sources must pass the check
 
     def __init__(self):
-        pass
-
-    @abstractmethod
-    def _fetch(self):
-       pass
+        if self.required is not None:
+            if not any([source.check() for source in self.required]):
+                raise OSError(f'No checks of {self.required_sources} succeeded.')
 
     def fetch(self):
-        self.fetched = self._fetch()
+        out = {}
+        for k, sources in self.sources.items():
+            out[k] = [source.fetch() for source in sources if source.check()]
+        self.fetched = out
         return self
 
     @abstractmethod
     def _extract(self):
         '''Must return a dict with structure:
-           if has_modes: {'mode': {'hotkey': 'action'}}
-           else: {'hotkey': 'action'}
+       if has_modes: {'mode': {'hotkey': 'action'}}
+       else: {'hotkey': 'action'}
         '''
         pass
 
@@ -35,11 +39,64 @@ class Extractor:
         return self
 
 
+# Content sources
+class Command:
+    def __init__(self, command):
+        self.command = shlex.split(command)
+
+    def fetch(self):
+        return subprocess.check_output(self.command).decode('utf8')
+
+    def check(self):
+        return which(self.command[0]) is not None
+
+    def __repr__(self):
+        return repr(' '.join(self.command))
+
+
+class File:
+    def __init__(self, file_path):
+        if isinstance(file_path, str):
+            file_path = Path(file_path)
+        self.file_path = file_path
+
+    def fetch(self):
+        with open(self.file_path, 'r') as fp:
+            return fp.read()
+
+    def check(self):
+        return self.file_path.is_file()
+
+    def __repr__(self):
+        return repr(str(self.file_path))
+
+
+class Manpage:
+    def __init__(self, page):
+        self.page = page
+
+    def fetch(self):
+        man_page_path = subprocess.check_output(['man', '-w', self.cmd]).decode('utf8')
+        man_page_path = Path(man_page_path.rstrip())
+        with gzip.open(man_page_path, 'rb') as gfp:
+            return gfp.read().decode('utf8')
+
+    def check(self):
+        all_pages = subprocess.check_output(['man', '-k', '.']).decode('utf8').split('\n')
+        all_pages = [page.split()[0] for page in all_pages]
+        return self.page in all_pages
+
+    def __repr__(self):
+        return repr(self.page)
+
+# potential sources: url/web
+
+
 class CommandCheck:
     def __init__(self):
         super().__init__()
-        if which(self.cmd) is None:
-            raise OSError(f'Command {self.cmd} not found.')
+        if which(self.check_cmd) is None:
+            raise OSError(f'Command {self.check_cmd} not found.')
 
 
 class ManPageFetch:
