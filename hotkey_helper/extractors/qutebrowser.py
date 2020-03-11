@@ -5,14 +5,14 @@ from pathlib import Path
 from .base import Extractor
 from .base import CommandCheck
 from .base import FileFetch
+from .base import Command
+from .base import File
 
-class Qutebrowser(FileFetch, CommandCheck, Extractor):
-    cmd = 'qutebrowser'
+class Qutebrowser(Extractor):
+    required = [Command('qutebrowser')]
+    sources = {'user': [File(Path(os.environ['XDG_CONFIG_HOME']) / 'qutebrowser' / 'config.py')]}
+
     has_modes = True
-    if 'XDG_CONFIG_HOME' in os.environ.keys():
-        file_path = Path(os.environ['XDG_CONFIG_HOME']) / 'qutebrowser' / 'config.py'
-    else:
-        file_path = Path(os.environ['HOME']) / '.config' / 'qutebrowser' / 'config.py'
 
     @staticmethod
     def _clean_fetched(content):
@@ -31,7 +31,7 @@ class Qutebrowser(FileFetch, CommandCheck, Extractor):
         return string.split('=')[-1][1: -1]
 
     def _extract(self):
-        fetched = self._clean_fetched(self.fetched)
+        fetched = self._clean_fetched(self.fetched['user'][0])
         out = {}
         for line in fetched:
             line = re.search(r"(?<=\().*?(?=\))", line)[0].split(', ')
