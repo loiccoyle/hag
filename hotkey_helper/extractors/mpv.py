@@ -15,10 +15,9 @@ from .base import File
 class Mpv(Extractor):
     required = [Command('mpv')]
     sources = {'system': [File('/usr/share/doc/mpv/input.conf'),
-                            File('/etc/mpv/input.conf'),
-                            File('/usr/local/etc/mpv/input.conf')],
-                 'user': [File(Path(os.environ['XDG_CONFIG_HOME']) / 'mpv/input.conf'),
-                          File(Path(os.environ['HOME']) / '.config/mpv/input.conf')]}
+                          File('/etc/mpv/input.conf'),
+                          File('/usr/local/etc/mpv/input.conf')],
+                 'user': [File(Path(os.environ['XDG_CONFIG_HOME']) / 'mpv' / 'input.conf')]}
     has_modes = False
 
     @staticmethod
