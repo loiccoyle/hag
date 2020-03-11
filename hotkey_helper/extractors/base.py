@@ -5,7 +5,6 @@ import subprocess
 
 from shutil import which
 from pathlib import Path
-from types import GeneratorType
 from abc import abstractmethod
 
 
