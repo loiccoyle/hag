@@ -42,52 +42,52 @@ class Extractor:
 # Content sources
 class Command:
     def __init__(self, command):
-        self.command = shlex.split(command)
+        self.source = shlex.split(command)
 
     def fetch(self):
-        return subprocess.check_output(self.command).decode('utf8')
+        return subprocess.check_output(self.source).decode('utf8')
 
     def check(self):
-        return which(self.command[0]) is not None
+        return which(self.source[0]) is not None
 
     def __repr__(self):
-        return repr(' '.join(self.command))
+        return repr(' '.join(self.source))
 
 
 class File:
     def __init__(self, file_path):
         if isinstance(file_path, str):
             file_path = Path(file_path)
-        self.file_path = file_path
+        self.source = file_path
 
     def fetch(self):
-        with open(self.file_path, 'r') as fp:
+        with open(self.source, 'r') as fp:
             return fp.read()
 
     def check(self):
-        return self.file_path.is_file()
+        return self.source.is_file()
 
     def __repr__(self):
-        return repr(str(self.file_path))
+        return repr(str(self.source))
 
 
 class Manpage:
     def __init__(self, page):
-        self.page = page
+        self.source = page
 
     def fetch(self):
-        man_page_path = subprocess.check_output(['man', '-w', self.cmd]).decode('utf8')
+        man_page_path = subprocess.check_output(['man', '-w', self.source]).decode('utf8')
         man_page_path = Path(man_page_path.rstrip())
         with gzip.open(man_page_path, 'rb') as gfp:
             return gfp.read().decode('utf8')
 
     def check(self):
         all_pages = subprocess.check_output(['man', '-k', '.']).decode('utf8').split('\n')
-        all_pages = [page.split()[0] for page in all_pages]
-        return self.page in all_pages
+        all_pages = [page.split()[0] for page in all_pages if page]
+        return self.source in all_pages
 
     def __repr__(self):
-        return repr(self.page)
+        return repr(self.source)
 
 # potential sources: url/web
 

@@ -4,11 +4,14 @@ from .base import Extractor
 from .base import ManPageFetch
 from .base import CommandCheck
 from .base import SectionExtract
+from .base import Command
+from .base import Manpage
 
 
 
-class Zathura(SectionExtract, ManPageFetch, CommandCheck, Extractor):
-    cmd = 'zathura'
+class Zathura(SectionExtract, Extractor):
+    required = [Command('zathura')]
+    sources = {'default': [Manpage('zathura')]}
     has_modes = True
 
     @staticmethod
@@ -24,7 +27,7 @@ class Zathura(SectionExtract, ManPageFetch, CommandCheck, Extractor):
         return string
 
     def _extract(self):
-        ht_section = self.find_sections(self.fetched,
+        ht_section = self.find_sections(self.fetched['default'][0],
                                         pattern='\.SH')['MOUSE AND KEY BINDINGS']
         modes = self.find_sections(ht_section, pattern='\.sp')
         for m in modes.keys():
