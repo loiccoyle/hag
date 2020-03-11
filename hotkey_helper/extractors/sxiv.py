@@ -28,13 +28,8 @@ class Sxiv(SectionExtract, Extractor):
         return string.replace(' , ', ',').replace('\-', '-')
 
     @staticmethod
-    def _clean_key_key_handler(string):
-        return string.strip()[1:-2]
-
-
-    @staticmethod
     def _clean_action_key_handler(string):
-        return string.strip().replace(';', '')
+        return string.strip()
 
     def _extract(self):
         ht_section = self.find_sections(self.fetched['default'][0],
@@ -52,11 +47,11 @@ class Sxiv(SectionExtract, Extractor):
             modes['key-handler'] = {}
             content = self.fetched['key_handler'][0]
             comments = re.compile(r'\s*#.*')
-            content_cases = re.compile(r"(\s[^#]\".*\"\)\s*\n)(.*)")
+            content_cases = re.compile(r"\s[^#]\"(.*)\"\)\s*\n(.*(?=;;))")
             content = re.sub(comments, '', content)
             cases = re.finditer(content_cases, content)
             for case in cases:
-                key = self._clean_key_key_handler(case[1])
+                key = case[1]
                 action = self._clean_action_key_handler(case[2])
                 modes['key-handler'][key] = action
         return modes
