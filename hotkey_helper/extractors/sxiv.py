@@ -4,13 +4,12 @@ import re
 from pathlib import Path
 
 from .base import Extractor
-from .base import SectionExtract
 from .base import File
 from .base import Command
 from .base import Manpage
 
 
-class Sxiv(SectionExtract, Extractor):
+class Sxiv(Extractor):
     required = [Command('sxiv')]
     sources = {'default': [Manpage('sxiv')],
                'key_handler': [File(Path(os.environ['XDG_CONFIG_HOME']) / 'sxiv' / 'exec' / 'key-handler')]}
@@ -18,41 +17,55 @@ class Sxiv(SectionExtract, Extractor):
 
     @staticmethod
     def _clean_action(string):
-        string = string.replace('\" , \" ', '').replace('.IR', '').replace('.I', '').replace('\n', '')
-        if '.TP' in string:
-            string = string[:string.index('.TP')]
-        return string
+        return string.replace('\n', ' ').strip()
 
     @staticmethod
     def _clean_key(string):
-        return string.replace(' , ', ',').replace('\-', '-')
-
-    @staticmethod
-    def _clean_action_key_handler(string):
-        return string.strip()
+        return string.replace('\-', '-').strip()
 
     def _extract(self):
-        ht_section = self.find_sections(self.fetched['default'][0],
-                                        pattern='\.SH')['KEYBOARD COMMANDS']
-        modes = self.find_sections(ht_section, pattern='\.SS')
-        # uniform key anchors
-        for m, content in modes.items():
-            content = content.replace('.BR', '.B')
-            keys = [self.split_title(k) for k in self.find_between(content, '\.B')]
-            keys = [(self._clean_key(k), self._clean_action(a)) for k, a in keys]
-            modes[m] = dict(keys)
+        content = self.fetched['default'][0]
+        # to selection sectio from manpage
+        content_section = re.compile(r'\.SH KEYBOARD COMMANDS.*?\.SH', re.DOTALL)
+        # to split the section in different mode
+        content_modes = re.compile(r'\.SS\s(.*?\n)(.*?)(?=(\.SS)|$)', re.DOTALL)
+        # get each key/action from the mode section
+        mode_key_action = re.compile(r'\.B[R]?\s(.*?\n)(.*?)(=?\.TP\n)', re.DOTALL)
+        # clean up some stray strings
+        content_clean = re.compile(r'(", ")|(\.I[R]? )')
+        # only keep the desired man page section
+        content = re.search(content_section, content)[0]
+        # clean
+        content = re.sub(content_clean, '', content)
+        # find all the modes
+        modes_content = re.finditer(content_modes, content)
+        out = {}
+        for mode_content in modes_content:
+            mode = mode_content[1].rstrip()
+            mode_c = mode_content[2]
+            # add mode
+            if mode not in out.keys():
+                out[mode] = {}
+            # find all the key/actions
+            for key_action in re.finditer(mode_key_action, mode_c):
+                key = self._clean_key(key_action[1])
+                action = self._clean_action(key_action[2])
+                out[mode][key] = action
 
         # extract key_handler
         if self.fetched['key_handler']:
-            modes['key-handler'] = {}
+            out['key-handler'] = {}
             content = self.fetched['key_handler'][0]
+            # remove comments
             comments = re.compile(r'\s*#.*')
-            content_cases = re.compile(r"\s[^#]\"(.*)\"\)\s*\n(.*(?=;;))")
+            # get key/action
+            content_cases = re.compile(r"\s\"(.*)\"\)\s*\n\s*(.*(?=;;))")
+            # clean
             content = re.sub(comments, '', content)
             cases = re.finditer(content_cases, content)
             for case in cases:
                 key = case[1]
-                action = self._clean_action_key_handler(case[2])
-                modes['key-handler'][key] = action
-        return modes
+                action = case[2]
+                out['key-handler'][key] = action
+        return out
 
