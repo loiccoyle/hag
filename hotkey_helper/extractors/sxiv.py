@@ -25,10 +25,10 @@ class Sxiv(Extractor):
 
     def _extract(self):
         content = self.fetched['default'][0]
-        # to selection sectio from manpage
+        # to select section from manpage
         content_section = re.compile(r'\.SH KEYBOARD COMMANDS.*?\.SH', re.DOTALL)
         # to split the section in different mode
-        content_modes = re.compile(r'\.SS\s(.*?\n)(.*?)(?=(\.SS)|$)', re.DOTALL)
+        content_modes = re.compile(r'\.SS\s(.*?)\n(.*?)(?=(\.SS)|$)', re.DOTALL)
         # get each key/action from the mode section
         mode_key_action = re.compile(r'\.B[R]?\s(.*?\n)(.*?)(=?\.TP\n)', re.DOTALL)
         # clean up some stray strings
@@ -37,12 +37,11 @@ class Sxiv(Extractor):
         content = re.search(content_section, content)[0]
         # clean
         content = re.sub(content_clean, '', content)
-        # find all the modes
-        modes_content = re.finditer(content_modes, content)
         out = {}
-        for mode_content in modes_content:
-            mode = mode_content[1].rstrip()
-            mode_c = mode_content[2]
+        # find all the modes
+        for mode_match in re.finditer(content_modes, content):
+            mode = mode_match[1]
+            mode_c = mode_match[2]
             # add mode
             if mode not in out.keys():
                 out[mode] = {}
@@ -64,8 +63,6 @@ class Sxiv(Extractor):
             content = re.sub(comments, '', content)
             cases = re.finditer(content_cases, content)
             for case in cases:
-                key = case[1]
-                action = case[2]
-                out['key-handler'][key] = action
+                out['key-handler'][case[1]] = case[2]
         return out
 

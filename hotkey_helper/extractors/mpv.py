@@ -20,25 +20,20 @@ class Mpv(Extractor):
 
     @staticmethod
     def _clean_action(string):
+        # replace whitespaces with space
+        string = re.sub(r'\s+', ' ', string)
         return string
-
-    @staticmethod
-    def _clean_key(string):
-        return string[1:]
 
     def _extract(self):
         out = {}
-        line_ignore = re.compile(r'#\S')
+        content_key_action = re.compile(r'^#(\S+)\s+(.*)\n', re.MULTILINE)
+        # remove this stray line to make the regex easier
         line_remove = re.compile(r'#default-bindings.*')
         # extract from all the fetched files
         for content in sum(self.fetched.values(), []):
             if content:
-                content = re.sub(line_remove, '', content[0])
-                for line in content.split('\n'):
-                    if re.match(line_ignore, line) :
-                        line_split = line.split()
-                        key = self._clean_key(line_split[0])
-                        action = self._clean_action(' '.join(line_split[1:]))
-                        out[key] = action
+                content = re.sub(line_remove, '', content)
+                for match in re.finditer(content_key_action, content):
+                    out[match[1]] = self._clean_action(match[2])
         return out
 

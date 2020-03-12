@@ -17,13 +17,10 @@ class Rofi(Extractor):
     def _extract(self):
         line_match = re.compile(r'(/\*)?\t((kb)|(me)|(ml))')
         line_clean = re.compile(r'((/\*)|(\*/)|(\t)|(;))')
+        content_key_action = re.compile(r'.*?(((kb)|(ml)|(me))-.*?):\s+\"(.*?)\"')
+        content = self.fetched['user'][0]
         out = {}
-        for line in self.fetched['user'][0].split('\n'):
-            if re.match(line_match, line):
-                line = re.sub(line_clean, '', line)
-                line_split = line.split(':')
-                key = self._clean_key(line_split[1])
-                action = line_split[0]
-                out[key] = action
+        for match in re.finditer(content_key_action, content):
+            out[match[6]] = match[1]
         return out
 

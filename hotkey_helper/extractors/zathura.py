@@ -1,4 +1,4 @@
-import subprocess
+import re
 
 from .base import Extractor
 from .base import SectionExtract
@@ -21,16 +21,26 @@ class Zathura(SectionExtract, Extractor):
 
     @staticmethod
     def _clean_key(string):
-        string = string.replace('^', 'ctrl+').replace('\\-', '-').replace('\\(aq', '\'')
+        string = string.replace('\\-', '-').replace('\\(aq', '\'')
         return string
 
     def _extract(self):
-        ht_section = self.find_sections(self.fetched['default'][0],
-                                        pattern='\.SH')['MOUSE AND KEY BINDINGS']
-        modes = self.find_sections(ht_section, pattern='\.sp')
-        for m in modes.keys():
-            keys = [self.split_title(k) for k in self.find_between(modes[m], '\.B')]
-            keys = [(self._clean_key(k), self._clean_action(a)) for k, a in keys]
-            modes[m] = dict(keys)
-        return modes
+        content = self.fetched['default'][0]
+        # select section from manpage
+        content_section = re.compile(r'\.SH MOUSE AND KEY BINDINGS.*?\.SH', re.DOTALL)
+        # split section in modes
+        content_modes = re.compile(r'\.sp\n(.*?)\n(.*?)(?=\.sp|$)', re.DOTALL)
+        # get the key/actions
+        mode_key_action = re.compile(r'\.B(.*?)\n(.*?)\n')
+        content = re.search(content_section, content)[0]
+        out = {}
+        for mode_match in re.finditer(content_modes, content):
+            mode = mode_match[1]
+            mode_content = mode_match[2]
+            if mode not in out.keys():
+                out[mode] = {}
+            for key_action in re.finditer(mode_key_action, mode_content):
+                key = self._clean_key(key_action[1])
+                out[key] = key_action[2]
+        return out
 
