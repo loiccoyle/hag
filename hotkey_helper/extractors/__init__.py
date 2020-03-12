@@ -6,6 +6,7 @@ from .qutebrowser import Qutebrowser
 from .mpv import Mpv
 from .lf import Lf
 from .vim import Vim
+from .termite import Termite
 
-__all__ = sorted(['Zathura', 'Sxiv', 'Rofi', 'Sxhkd', 'Qutebrowser', 'Mpv', 'Lf', 'Vim'])
+__all__ = sorted(['Zathura', 'Sxiv', 'Rofi', 'Sxhkd', 'Qutebrowser', 'Mpv', 'Lf', 'Vim', 'Termite'])
 
