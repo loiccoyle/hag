@@ -12,8 +12,10 @@ class Vim(Extractor):
     required = [Command('vim')]
     # kinda weird, the first command creates the file for the second source
     sources = {'user': [Command(f'vim -c "redir! > {_temp_file} | silent map | redir END | q"'), File(_temp_file)]}
+    has_modes = True
 
     def _extract(self):
+        # convert vim mode notation to human, from :help map
         mode_map = {
             ' ': 'Normal, Visual, Select, Operator-pending',
             'n': 'Normal',
@@ -28,10 +30,12 @@ class Vim(Extractor):
             't': 'Terminal-Job',
         }
         content = self.fetched['user'][1]
+        # get the key/action
         content_key_action = re.compile(r'(.)\s+(\S+)\s+[@\&\*]?\s*(.*?)\n')
         out = {}
         for match in re.finditer(content_key_action, content):
             key = match[2]
+            # remove <Plug> keys
             if not key.startswith('<Plug>'):
                 mode = mode_map[match[1]]
                 action = match[3]
