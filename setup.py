@@ -1,7 +1,6 @@
 from setuptools import setup
 
-with open("requirements.txt") as fobj:
-    REQUIREMENTS = [l.strip() for l in fobj.readlines()]
+REQUIREMENTS = []
 
 DESCRIPTION = ""
 
