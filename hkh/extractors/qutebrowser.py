@@ -6,23 +6,29 @@ from .base import Extractor
 from .base import Command
 from .base import File
 
+
 class Qutebrowser(Extractor):
-    required = [Command('qutebrowser')]
-    sources = {'user': [File(Path(os.environ['XDG_CONFIG_HOME']) / 'qutebrowser' / 'config.py')]}
+    required = [Command("qutebrowser")]
+    sources = {
+        "user": [
+            File(Path(os.environ["XDG_CONFIG_HOME"]) / "qutebrowser" / "config.py")
+        ]
+    }
     has_modes = True
 
     def _extract(self):
-        fetched = self.fetched['user'][0]
-        content_key_action = re.compile(r'.*config.bind\([\'\"](.*?)[\'\"],\s*[\'\"](.*?)[\'\"](,\s*mode=[\'\"](.*?)[\'\"])?')
+        fetched = self.fetched["user"][0]
+        content_key_action = re.compile(
+            r".*config.bind\([\'\"](.*?)[\'\"],\s*[\'\"](.*?)[\'\"](,\s*mode=[\'\"](.*?)[\'\"])?"
+        )
         out = {}
-        for match in  re.finditer(content_key_action, fetched):
+        for match in re.finditer(content_key_action, fetched):
             # the mode kwargs default to normal
             if match[4]:
                 mode = match[4]
             else:
-                mode = 'normal'
+                mode = "normal"
             if not mode in out.keys():
                 out[mode] = {}
             out[mode][match[1]] = match[2]
         return out
-

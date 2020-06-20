@@ -7,30 +7,30 @@ from .base import Manpage
 
 
 class Zathura(SectionExtract, Extractor):
-    required = [Command('zathura')]
-    sources = {'default': [Manpage('zathura')]}
+    required = [Command("zathura")]
+    sources = {"default": [Manpage("zathura")]}
     has_modes = True
 
     @staticmethod
     def _clean_action(string):
-        string = string.replace('\\fB', '').replace('\\fP', '')
-        string = string.replace('\\-', '-')
-        string = string[:string.index('\n')] + '.'
+        string = string.replace("\\fB", "").replace("\\fP", "")
+        string = string.replace("\\-", "-")
+        string = string[: string.index("\n")] + "."
         return string
 
     @staticmethod
     def _clean_key(string):
-        string = string.replace('\\-', '-').replace('\\(aq', '\'')
+        string = string.replace("\\-", "-").replace("\\(aq", "'")
         return string
 
     def _extract(self):
-        content = self.fetched['default'][0]
+        content = self.fetched["default"][0]
         # select section from manpage
-        content_section = re.compile(r'\.SH MOUSE AND KEY BINDINGS.*?\.SH', re.DOTALL)
+        content_section = re.compile(r"\.SH MOUSE AND KEY BINDINGS.*?\.SH", re.DOTALL)
         # split section in modes
-        content_modes = re.compile(r'\.sp\n(.*?)\n(.*?)(?=\.sp|$)', re.DOTALL)
+        content_modes = re.compile(r"\.sp\n(.*?)\n(.*?)(?=\.sp|$)", re.DOTALL)
         # get the key/actions
-        mode_key_action = re.compile(r'\.B(.*?)\n(.*?)\n')
+        mode_key_action = re.compile(r"\.B(.*?)\n(.*?)\n")
         content = re.search(content_section, content)[0]
         out = {}
         for mode_match in re.finditer(content_modes, content):
@@ -42,4 +42,3 @@ class Zathura(SectionExtract, Extractor):
                 key = self._clean_key(key_action[1])
                 out[key] = key_action[2]
         return out
-

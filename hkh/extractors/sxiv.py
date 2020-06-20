@@ -10,33 +10,37 @@ from .base import Manpage
 
 
 class Sxiv(Extractor):
-    required = [Command('sxiv')]
-    sources = {'default': [Manpage('sxiv')],
-               'key_handler': [File(Path(os.environ['XDG_CONFIG_HOME']) / 'sxiv' / 'exec' / 'key-handler')]}
+    required = [Command("sxiv")]
+    sources = {
+        "default": [Manpage("sxiv")],
+        "key_handler": [
+            File(Path(os.environ["XDG_CONFIG_HOME"]) / "sxiv" / "exec" / "key-handler")
+        ],
+    }
     has_modes = True
 
     @staticmethod
     def _clean_action(string):
-        return string.replace('\n', ' ').strip()
+        return string.replace("\n", " ").strip()
 
     @staticmethod
     def _clean_key(string):
-        return string.replace('\-', '-').strip()
+        return string.replace("\-", "-").strip()
 
     def _extract(self):
-        content = self.fetched['default'][0]
+        content = self.fetched["default"][0]
         # to select section from manpage
-        content_section = re.compile(r'\.SH KEYBOARD COMMANDS.*?\.SH', re.DOTALL)
+        content_section = re.compile(r"\.SH KEYBOARD COMMANDS.*?\.SH", re.DOTALL)
         # to split the section in different mode
-        content_modes = re.compile(r'\.SS\s(.*?)\n(.*?)(?=(\.SS)|$)', re.DOTALL)
+        content_modes = re.compile(r"\.SS\s(.*?)\n(.*?)(?=(\.SS)|$)", re.DOTALL)
         # get each key/action from the mode section
-        mode_key_action = re.compile(r'\.B[R]?\s(.*?\n)(.*?)(=?\.TP\n)', re.DOTALL)
+        mode_key_action = re.compile(r"\.B[R]?\s(.*?\n)(.*?)(=?\.TP\n)", re.DOTALL)
         # clean up some stray strings
         content_clean = re.compile(r'(", ")|(\.I[R]? )')
         # only keep the desired man page section
         content = re.search(content_section, content)[0]
         # clean
-        content = re.sub(content_clean, '', content)
+        content = re.sub(content_clean, "", content)
         out = {}
         # find all the modes
         for mode_match in re.finditer(content_modes, content):
@@ -52,17 +56,16 @@ class Sxiv(Extractor):
                 out[mode][key] = action
 
         # extract key_handler
-        if self.fetched['key_handler']:
-            out['key-handler'] = {}
-            content = self.fetched['key_handler'][0]
+        if self.fetched["key_handler"]:
+            out["key-handler"] = {}
+            content = self.fetched["key_handler"][0]
             # remove comments
-            comments = re.compile(r'\s*#.*')
+            comments = re.compile(r"\s*#.*")
             # get key/action
             content_cases = re.compile(r"\s\"(.*)\"\)\s*\n\s*(.*(?=;;))")
             # clean
-            content = re.sub(comments, '', content)
+            content = re.sub(comments, "", content)
             cases = re.finditer(content_cases, content)
             for case in cases:
-                out['key-handler'][case[1]] = case[2]
+                out["key-handler"][case[1]] = case[2]
         return out
-

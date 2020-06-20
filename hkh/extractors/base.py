@@ -16,7 +16,7 @@ class Extractor:
     def __init__(self):
         if self.required is not None:
             if not any([source.check() for source in self.required]):
-                raise OSError(f'No checks of {self.required_sources} succeeded.')
+                raise OSError(f"No checks of {self.required_sources} succeeded.")
 
     def fetch(self):
         out = {}
@@ -27,10 +27,10 @@ class Extractor:
 
     @abstractmethod
     def _extract(self):
-        '''Must return a dict with structure:
+        """Must return a dict with structure:
        if has_modes: {'mode': {'hotkey': 'action'}}
        else: {'hotkey': 'action'}
-        '''
+        """
         pass
 
     def extract(self):
@@ -44,13 +44,13 @@ class Command:
         self.source = shlex.split(command)
 
     def fetch(self):
-        return subprocess.check_output(self.source).decode('utf8')
+        return subprocess.check_output(self.source).decode("utf8")
 
     def check(self):
         return which(self.source[0]) is not None
 
     def __repr__(self):
-        return repr(' '.join(self.source))
+        return repr(" ".join(self.source))
 
 
 class File:
@@ -60,7 +60,7 @@ class File:
         self.source = file_path
 
     def fetch(self):
-        with open(self.source, 'r') as fp:
+        with open(self.source, "r") as fp:
             return fp.read()
 
     def check(self):
@@ -75,39 +75,44 @@ class Manpage:
         self.source = page
 
     def fetch(self):
-        man_page_path = subprocess.check_output(['man', '-w', self.source]).decode('utf8')
+        man_page_path = subprocess.check_output(["man", "-w", self.source]).decode(
+            "utf8"
+        )
         man_page_path = Path(man_page_path.rstrip())
-        with gzip.open(man_page_path, 'rb') as gfp:
-            return gfp.read().decode('utf8')
+        with gzip.open(man_page_path, "rb") as gfp:
+            return gfp.read().decode("utf8")
 
     def check(self):
-        all_pages = subprocess.check_output(['man', '-k', '.']).decode('utf8').split('\n')
+        all_pages = (
+            subprocess.check_output(["man", "-k", "."]).decode("utf8").split("\n")
+        )
         all_pages = [page.split()[0] for page in all_pages if page]
         return self.source in all_pages
 
     def __repr__(self):
         return repr(self.source)
 
+
 # potential sources: url/web
 
 
 class SectionExtract:
-    '''Helper methods to assist in handling man page source documents.
-    '''
-    def find_sections(self, content, pattern='\.SH'):
+    """Helper methods to assist in handling man page source documents.
+    """
+
+    def find_sections(self, content, pattern="\.SH"):
         sections = self.find_between(content, pattern)
         return dict([self.split_title(s) for s in sections])
 
     @staticmethod
     def find_between(content, pattern):
-        return re.findall(rf'(?<={pattern})(.*?)(?={pattern}|$)', content, re.DOTALL)
+        return re.findall(rf"(?<={pattern})(.*?)(?={pattern}|$)", content, re.DOTALL)
 
     @staticmethod
-    def split_title(content, pattern='\n'):
+    def split_title(content, pattern="\n"):
         content = content.lstrip()
-        content = content.replace('\"', '')
+        content = content.replace('"', "")
         first_split = content.index(pattern)
         title = content[:first_split]
         content = content[first_split:]
         return title.strip(), content.lstrip()
-

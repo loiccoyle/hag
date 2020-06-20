@@ -1,5 +1,6 @@
 from abc import abstractmethod
 
+
 class Display:
     def __init__(self, ht_dict, has_modes):
         self.ht_dict = ht_dict
@@ -8,4 +9,3 @@ class Display:
     @abstractmethod
     def show(self, mode=None):
         pass
-
