@@ -11,7 +11,7 @@ except UnicodeDecodeError:
     LONG_DESCRIPTION = ""
 
 setup(
-    name="hotkey_helper",
+    name="hkh",
     author="Loic Coyle",
     author_email="loic.coyle@hotmail.fr",
     description=DESCRIPTION,
@@ -20,6 +20,4 @@ setup(
     entry_points={"console_scripts": ["hkh = hkh.__main__:main"]},
     install_requires=REQUIREMENTS,
     python_requires=">=3.6",
-    setup_requires=["setuptools_scm"],
-    use_scm_version=True,
 )
