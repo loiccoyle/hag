@@ -1,6 +1,7 @@
 import argparse
 import sys
 
+from . import __version__
 from . import displays
 from . import extractors
 
@@ -40,7 +41,14 @@ def main():
     parser.add_argument(
         "-m", "--modes", help="filter mode", action="append", default=None
     )
+    parser.add_argument(
+        "-v", "--version", action="store_true", help="Show hkh version and exit."
+    )
     args = parser.parse_args()
+
+    if args.version:
+        print(__version__)
+        sys.exit()
 
     if args.list_displays:
         for i in displays.__all__:
