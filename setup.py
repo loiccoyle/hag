@@ -16,10 +16,10 @@ setup(name='hotkey_helper',
       author_email='loic.coyle@hotmail.fr',
       description=DESCRIPTION,
       long_description=LONG_DESCRIPTION,
-      packages=['hotkey_helper'],
+      packages=['hkh'],
       entry_points={
           'console_scripts': [
-              'hkh = hotkey_helper.__main__:main'
+              'hkh = hkh.__main__:main'
           ]
       },
       install_requires=REQUIREMENTS,

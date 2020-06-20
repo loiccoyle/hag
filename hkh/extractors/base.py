@@ -71,7 +71,7 @@ class File:
 
 
 class Manpage:
-    def __init__(self, page):
+    def __init__(self, page: str):
         self.source = page
 
     def fetch(self):
@@ -92,6 +92,8 @@ class Manpage:
 
 
 class SectionExtract:
+    '''Helper methods to assist in handling man page source documents.
+    '''
     def find_sections(self, content, pattern='\.SH'):
         sections = self.find_between(content, pattern)
         return dict([self.split_title(s) for s in sections])

@@ -6,7 +6,6 @@ from .base import Command
 from .base import Manpage
 
 
-
 class Zathura(SectionExtract, Extractor):
     required = [Command('zathura')]
     sources = {'default': [Manpage('zathura')]}
