@@ -10,6 +10,7 @@ from .base import File
 class Vim(Extractor):
     _temp_file = mkstemp()[1]
     required = [Command("vim")]
+    # map won't show autocmd added hotkeys
     # kinda weird, the first command creates the file for the second source
     sources = {
         "user": [

@@ -9,6 +9,8 @@ from .base import File
 
 class Qutebrowser(Extractor):
     required = [Command("qutebrowser")]
+    # TODO: figure out better way than parsing the config file. There should be away
+    # to get the config from qutebrowser's python api.
     sources = {
         "user": [
             File(Path(os.environ["XDG_CONFIG_HOME"]) / "qutebrowser" / "config.py")
