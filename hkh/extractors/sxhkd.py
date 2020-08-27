@@ -34,6 +34,13 @@ class Sxhkd(Extractor):
     def _extract(self):
         fetched = self._clean_fetched(self.fetched["user"][0])
         fetched = iter(fetched)
-        return {
-            self._clean_key(key): self._clean_action(next(fetched)) for key in fetched
-        }
+        out = {}
+        for key in fetched:
+            actions = []
+            action = self._clean_action(next(fetched))
+            actions.append(action)
+            while action.endswith("\\"):
+                action = self._clean_action(next(fetched))
+                actions.append(action)
+            out[self._clean_key(key)] = ''.join([ac.replace("//", '') for ac in actions])
+        return out
