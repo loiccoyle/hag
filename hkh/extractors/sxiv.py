@@ -27,8 +27,8 @@ class Sxiv(Extractor):
     def _clean_key(string):
         return string.replace("\-", "-").strip()
 
-    def _extract(self):
-        content = self.fetched["default"][0]
+    def extract(self, fetched):
+        content = fetched["default"][0]
         # to select section from manpage
         content_section = re.compile(r"\.SH KEYBOARD COMMANDS.*?\.SH", re.DOTALL)
         # to split the section in different mode
@@ -56,9 +56,9 @@ class Sxiv(Extractor):
                 out[mode][key] = action
 
         # extract key_handler
-        if self.fetched["key_handler"]:
+        if fetched["key_handler"]:
             out["key-handler"] = {}
-            content = self.fetched["key_handler"][0]
+            content = fetched["key_handler"][0]
             # remove comments
             comments = re.compile(r"\s*#.*")
             # get key/action

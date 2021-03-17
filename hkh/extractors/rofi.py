@@ -14,11 +14,11 @@ class Rofi(Extractor):
         string = string.lstrip()[1:-1]
         return string
 
-    def _extract(self):
+    def extract(self, fetched):
         line_match = re.compile(r"(/\*)?\t((kb)|(me)|(ml))")
         line_clean = re.compile(r"((/\*)|(\*/)|(\t)|(;))")
         content_key_action = re.compile(r".*?(((kb)|(ml)|(me))-.*?):\s+\"(.*?)\"")
-        content = self.fetched["user"][0]
+        content = fetched["user"][0]
         out = {}
         for match in re.finditer(content_key_action, content):
             out[match[6]] = match[1]

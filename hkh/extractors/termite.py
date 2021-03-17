@@ -10,8 +10,8 @@ class Termite(Extractor):
     sources = {"default": [Manpage("termite")]}
     has_modes = True
 
-    def _extract(self):
-        content = self.fetched["default"][0]
+    def extract(self, fetched):
+        content = fetched["default"][0]
         # remove some stray groff tags
         content_clean = re.compile(r"(\\f[PBI])")
         # get the desired section

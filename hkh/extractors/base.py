@@ -1,80 +1,89 @@
+from abc import abstractmethod
+import gzip
+from pathlib import Path
 import re
 import shlex
-import gzip
-import subprocess
-
 from shutil import which
-from pathlib import Path
-from abc import abstractmethod
+import subprocess
+from typing import Dict, List, Optional, Union
 
 
 class Extractor:
-    has_modes = None  # boolean
-    sources = None  # dict of sources
-    required = None  # None or list of sources at least one of these sources must pass the check
+    has_modes: bool = None  # boolean
+    sources: Dict[str, List["Source"]] = None  # dict of sources
+    required: Optional[
+        List["Source"]
+    ] = None  # None or list of sources at least one of these sources must pass the check
 
     def __init__(self):
         if self.required is not None:
             if not any([source.check() for source in self.required]):
-                raise OSError(f"No checks of {self.required_sources} succeeded.")
+                raise OSError(f"No checks of {self.required} succeeded.")
 
-    def fetch(self):
+    def fetch(self) -> Dict[str, List[str]]:
         out = {}
         for k, sources in self.sources.items():
             out[k] = [source.fetch() for source in sources if source.check()]
-        self.fetched = out
-        return self
+        return out
 
     @abstractmethod
-    def _extract(self):
+    def extract(
+        self, fetched: Dict[str, List[str]]
+    ) -> Dict[str, Union[str, Dict[str, str]]]:
         """Must return a dict with structure:
-       if has_modes: {'mode': {'hotkey': 'action'}}
-       else: {'hotkey': 'action'}
+        if has_modes: {'mode': {'hotkey': 'action'}}
+        else: {'hotkey': 'action'}
         """
         pass
 
-    def extract(self):
-        self.extracted = self._extract()
-        return self
-
 
 # Content sources
-class Command:
+class Source:
+    @abstractmethod
+    def fetch(self) -> str:
+        pass
+
+    @abstractmethod
+    def check(self) -> bool:
+        pass
+
+
+class Command(Source):
     def __init__(self, command):
         self.source = shlex.split(command)
 
-    def fetch(self):
+    def fetch(self) -> str:
         return subprocess.check_output(self.source).decode("utf8")
 
-    def check(self):
+    def check(self) -> bool:
         return which(self.source[0]) is not None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return repr(" ".join(self.source))
 
 
-class File:
+class File(Source):
     def __init__(self, file_path):
         if isinstance(file_path, str):
             file_path = Path(file_path)
         self.source = file_path
 
-    def fetch(self):
+    def fetch(self) -> str:
         with open(self.source, "r") as fp:
             return fp.read()
 
-    def check(self):
+    def check(self) -> bool:
         return self.source.is_file()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return repr(str(self.source))
 
 
-class Manpage:
+class Manpage(Source):
     def __init__(self, page: str):
         self.source = page
 
-    def fetch(self):
+    def fetch(self) -> str:
         man_page_path = subprocess.check_output(["man", "-w", self.source]).decode(
             "utf8"
         )
@@ -82,14 +91,14 @@ class Manpage:
         with gzip.open(man_page_path, "rb") as gfp:
             return gfp.read().decode("utf8")
 
-    def check(self):
+    def check(self) -> bool:
         all_pages = (
             subprocess.check_output(["man", "-k", "."]).decode("utf8").split("\n")
         )
         all_pages = [page.split()[0] for page in all_pages if page]
         return self.source in all_pages
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return repr(self.source)
 
 
@@ -97,10 +106,9 @@ class Manpage:
 
 
 class SectionExtract:
-    """Helper methods to assist in handling man page source documents.
-    """
+    """Helper methods to assist in handling man page source documents."""
 
-    def find_sections(self, content, pattern="\.SH"):
+    def find_sections(self, content, pattern=r"\.SH"):
         sections = self.find_between(content, pattern)
         return dict([self.split_title(s) for s in sections])
 

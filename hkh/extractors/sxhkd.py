@@ -10,9 +10,20 @@ from .base import File
 class Sxhkd(Extractor):
     required = [Command("sxhkd")]
     sources = {
-        "user": [File(Path(os.environ["XDG_CONFIG_HOME"]) / "sxhkd" / "sxhkdrc")]
+        "user": [
+            File(
+                Path(
+                    os.environ.get(
+                        "XDG_CONFIG_HOME",
+                        Path(os.environ["HOME"]) / ".config",
+                    )
+                )
+                / "sxhkd"
+                / "sxhkdrc"
+            )
+        ]
     }
-    had_modes = False
+    has_modes = False
 
     @staticmethod
     def _clean_fetched(content):
@@ -31,8 +42,8 @@ class Sxhkd(Extractor):
         string = string.replace(" + ", "+")
         return string
 
-    def _extract(self):
-        fetched = self._clean_fetched(self.fetched["user"][0])
+    def extract(self, fetched):
+        fetched = self._clean_fetched(fetched["user"][0])
         fetched = iter(fetched)
         out = {}
         for key in fetched:
@@ -42,5 +53,7 @@ class Sxhkd(Extractor):
             while action.endswith("\\"):
                 action = self._clean_action(next(fetched))
                 actions.append(action)
-            out[self._clean_key(key)] = ''.join([ac.replace("//", '') for ac in actions])
+            out[self._clean_key(key)] = "".join(
+                [ac.replace("//", "") for ac in actions]
+            )
         return out

@@ -20,7 +20,7 @@ class Vim(Extractor):
     }
     has_modes = True
 
-    def _extract(self):
+    def extract(self, fetched):
         # convert vim mode notation to human, from :help map
         mode_map = {
             " ": "Normal, Visual, Select, Operator-pending",
@@ -35,7 +35,7 @@ class Vim(Extractor):
             "c": "Command-line",
             "t": "Terminal-Job",
         }
-        content = self.fetched["user"][1]
+        content = fetched["user"][1]
         # get the key/action
         content_key_action = re.compile(r"(.)\s+(\S+)\s+[@\&\*]?\s*(.*?)\n")
         out = {}

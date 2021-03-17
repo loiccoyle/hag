@@ -69,10 +69,12 @@ def main():
         Extractor = getattr(extractors, args.extractor.title())
         Display = getattr(displays, args.display.title())
 
-        # laod hotkeys
-        hotkeys = Extractor().fetch().extract().extracted
+        # load hotkeys
+        extractor = Extractor()
+        fetched = extractor.fetch()
+        hotkeys = extractor.extract(fetched)
         # display
-        Display(hotkeys, has_modes=Extractor.has_modes).show(modes=args.modes)
+        Display(hotkeys, has_modes=extractor.has_modes).show(modes=args.modes)
     # sys.exit(0)
 
 

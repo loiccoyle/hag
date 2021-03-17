@@ -23,8 +23,8 @@ class Zathura(SectionExtract, Extractor):
         string = string.replace("\\-", "-").replace("\\(aq", "'")
         return string
 
-    def _extract(self):
-        content = self.fetched["default"][0]
+    def extract(self, fetched):
+        content = fetched["default"][0]
         # select section from manpage
         content_section = re.compile(r"\.SH MOUSE AND KEY BINDINGS.*?\.SH", re.DOTALL)
         # split section in modes

@@ -29,13 +29,13 @@ class Mpv(Extractor):
         string = re.sub(r"\s+", " ", string)
         return string
 
-    def _extract(self):
+    def extract(self, fetched):
         out = {}
         content_key_action = re.compile(r"^#(\S+)\s+(.*)\n", re.MULTILINE)
         # remove this stray line to make the regex easier
         line_remove = re.compile(r"#default-bindings.*")
         # extract from all the fetched files
-        for content in sum(self.fetched.values(), []):
+        for content in sum(fetched.values(), []):
             if content:
                 content = re.sub(line_remove, "", content)
                 for match in re.finditer(content_key_action, content):
