@@ -1,6 +1,6 @@
 import os
-import re
 from pathlib import Path
+import re
 
 from .base import Extractor
 from .base import Command

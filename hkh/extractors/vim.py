@@ -1,5 +1,4 @@
 import re
-
 from tempfile import mkstemp
 
 from .base import Extractor

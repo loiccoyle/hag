@@ -1,13 +1,14 @@
-from .zathura import Zathura
-from .sxiv import Sxiv
+from .lazygit import Lazygit
+from .lf import Lf
+from .mpv import Mpv
+from .qutebrowser import Qutebrowser
 from .rofi import Rofi
 from .sxhkd import Sxhkd
-from .qutebrowser import Qutebrowser
-from .mpv import Mpv
-from .lf import Lf
-from .vim import Vim
+from .sxiv import Sxiv
 from .termite import Termite
-from .lazygit import Lazygit
+from .vim import Vim
+from .zathura import Zathura
+from .zsh import Zsh
 
 __all__ = sorted(
     [
@@ -21,5 +22,6 @@ __all__ = sorted(
         "Vim",
         "Termite",
         "Lazygit",
+        "Zsh"
     ]
 )
