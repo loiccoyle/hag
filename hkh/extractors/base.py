@@ -49,7 +49,7 @@ class Source:
 
 
 class Command(Source):
-    def __init__(self, command):
+    def __init__(self, command: str):
         self.source = shlex.split(command)
 
     def fetch(self) -> str:
@@ -63,7 +63,7 @@ class Command(Source):
 
 
 class File(Source):
-    def __init__(self, file_path):
+    def __init__(self, file_path: Union[Path, str]):
         if isinstance(file_path, str):
             file_path = Path(file_path)
         self.source = file_path
