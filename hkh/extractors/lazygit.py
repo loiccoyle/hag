@@ -1,8 +1,7 @@
 import re
-import os
 
-from .base import Extractor
-from .base import Command
+from .base import Command, Extractor
+
 
 # TODO: this is broken
 class Lazygit(Extractor):
@@ -18,6 +17,10 @@ class Lazygit(Extractor):
         # keep the keybinding section
         content = re.search(section_re, fetched["user"][0])[0]
         # print(content)
+        match = re.search(section_re, fetched["user"][0])
+        if match is None:
+            raise TypeError("Section match is None")
+        content = match[0]
         for line in content.split("\n"):
             # get the mode
             mode_match = re.match(mode_re, line)

@@ -1,12 +1,8 @@
 import os
 import re
-
 from pathlib import Path
 
-from .base import Extractor
-from .base import File
-from .base import Command
-from .base import Manpage
+from .base import Command, Extractor, File, Manpage
 
 
 class Sxiv(Extractor):
@@ -25,7 +21,7 @@ class Sxiv(Extractor):
 
     @staticmethod
     def _clean_key(string):
-        return string.replace("\-", "-").strip()
+        return string.replace(r"\-", "-").strip()
 
     def extract(self, fetched):
         content = fetched["default"][0]
@@ -38,7 +34,10 @@ class Sxiv(Extractor):
         # clean up some stray strings
         content_clean = re.compile(r'(", ")|(\.I[R]? )')
         # only keep the desired man page section
-        content = re.search(content_section, content)[0]
+        match = re.search(content_section, content)
+        if match is None:
+            raise TypeError("Section match is None")
+        content = match[0]
         # clean
         content = re.sub(content_clean, "", content)
         out = {}

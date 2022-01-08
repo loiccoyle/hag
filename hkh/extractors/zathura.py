@@ -1,9 +1,6 @@
 import re
 
-from .base import Extractor
-from .base import SectionExtract
-from .base import Command
-from .base import Manpage
+from .base import Command, Extractor, Manpage, SectionExtract
 
 
 class Zathura(SectionExtract, Extractor):
@@ -31,7 +28,10 @@ class Zathura(SectionExtract, Extractor):
         content_modes = re.compile(r"\.sp\n(.*?)\n(.*?)(?=\.sp|$)", re.DOTALL)
         # get the key/actions
         mode_key_action = re.compile(r"\.B(.*?)\n(.*?)\n")
-        content = re.search(content_section, content)[0]
+        match = re.search(content_section, content)
+        if match is None:
+            raise TypeError("Section match is None")
+        content = match[0]
         out = {}
         for mode_match in re.finditer(content_modes, content):
             mode = mode_match[1]

@@ -1,8 +1,6 @@
 import re
 
-from .base import Extractor
-from .base import Manpage
-from .base import Command
+from .base import Command, Extractor, Manpage
 
 
 class Termite(Extractor):
@@ -23,7 +21,10 @@ class Termite(Extractor):
         # clean
         content = re.sub(content_clean, "", content)
         # get section
-        content = re.search(content_section, content)[0]
+        match = re.search(content_section, content)
+        if match is None:
+            raise TypeError("Section match is None")
+        content = match[0]
         out = {}
         # find modes
         for mode_match in re.finditer(content_modes, content):

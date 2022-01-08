@@ -1,10 +1,8 @@
-import re
 import os
+import re
 from pathlib import Path
 
-from .base import Extractor
-from .base import Command
-from .base import File
+from .base import Command, Extractor, File
 
 
 class Lf(Extractor):
@@ -23,7 +21,10 @@ class Lf(Extractor):
         content_clean_quote = re.compile(r'(?<!")\'(?!")')
         # extract the default bindings
         # get the desired section
-        content = re.search(content_section, fetched["default"][0])[0]
+        match = re.search(content_section, fetched["default"][0])
+        if match is None:
+            raise TypeError("Section match is None.")
+        content = match[0]
         # clean the problematic lines
         content = re.sub(content_clean, "", content)
         # remove the quotes could be improved
