@@ -1,1 +1,3 @@
-# hotkey_helper
+# hkh
+
+A hotkey helper.
