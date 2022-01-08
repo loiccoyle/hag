@@ -1,16 +1,17 @@
-from abc import abstractmethod
 import gzip
-from pathlib import Path
+import importlib
 import re
 import shlex
-from shutil import which
 import subprocess
+from abc import abstractmethod
+from pathlib import Path
+from shutil import which
 from typing import Dict, List, Optional, Union
 
 
 class Extractor:
-    has_modes: bool = None  # boolean
-    sources: Dict[str, List["Source"]] = None  # dict of sources
+    has_modes: Optional[bool] = None  # boolean
+    sources: Optional[Dict[str, List["Source"]]] = None  # dict of sources
     required: Optional[
         List["Source"]
     ] = None  # None or list of sources at least one of these sources must pass the check
@@ -21,6 +22,9 @@ class Extractor:
                 raise OSError(f"No checks of {self.required} succeeded.")
 
     def fetch(self) -> Dict[str, List[str]]:
+        if self.sources is None:
+            raise TypeError("Can't fetch, 'sources' attribute is None.")
+
         out = {}
         for k, sources in self.sources.items():
             out[k] = [source.fetch() for source in sources if source.check()]
@@ -46,6 +50,22 @@ class Source:
     @abstractmethod
     def check(self) -> bool:
         pass
+
+
+class PythonModule(Source):
+    def __init__(self, module_name: str):
+        self.module_name = module_name
+        self._module = None
+
+    def check(self) -> bool:
+        try:
+            importlib.import_module(self.module_name)
+        except ModuleNotFoundError:
+            return False
+        return True
+
+    def __repr__(self) -> str:
+        return repr(self.module_name)
 
 
 class Command(Source):

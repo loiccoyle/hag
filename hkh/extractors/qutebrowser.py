@@ -1,36 +1,42 @@
-import re
 import os
-from pathlib import Path
+from typing import Dict
 
-from .base import Extractor
-from .base import Command
-from .base import File
+from .base import Extractor, PythonModule
 
 
 class Qutebrowser(Extractor):
-    required = [Command("qutebrowser")]
-    # TODO: figure out better way than parsing the config file. There should be away
-    # to get the config from qutebrowser's python api.
-    sources = {
-        "user": [
-            File(Path(os.environ["XDG_CONFIG_HOME"]) / "qutebrowser" / "config.py")
-        ]
-    }
+    required = [PythonModule("qutebrowser")]
     has_modes = True
 
-    def _extract(self):
-        fetched = self.fetched["user"][0]
-        content_key_action = re.compile(
-            r".*config.bind\([\'\"](.*?)[\'\"],\s*[\'\"](.*?)[\'\"](,\s*mode=[\'\"](.*?)[\'\"])?"
-        )
-        out = {}
-        for match in re.finditer(content_key_action, fetched):
-            # the mode kwargs default to normal
-            if match[4]:
-                mode = match[4]
-            else:
-                mode = "normal"
-            if not mode in out.keys():
-                out[mode] = {}
-            out[mode][match[1]] = match[2]
-        return out
+    def fetch(self) -> Dict[str, Dict[str, str]]:
+        # based on: https://github.com/qutebrowser/qutebrowser/blob/master/qutebrowser/config/configinit.py#L40
+        from qutebrowser.config import config, configdata, configfiles
+        from qutebrowser.utils import standarddir
+
+        standarddir._init_dirs()
+        configdata.init()
+        yaml_config = configfiles.YamlConfig()
+        config.instance = config.Config(yaml_config=yaml_config)
+        config.key_instance = config.KeyConfig(config.instance)
+        config.val = config.ConfigContainer(config.instance)
+        yaml_config.setParent(config.instance)
+
+        config_file = standarddir.config_py()
+        if os.path.exists(config_file):
+            configfiles.read_config_py(config_file)
+        else:
+            configfiles.read_autoconfig()
+
+        configfiles.init()
+        modes = config.val.bindings.default.keys()
+        return {
+            mode: {
+                str(key): value
+                for key, value in config.key_instance.get_bindings_for(mode).items()
+            }
+            for mode in modes
+        }
+
+    def extract(self, fetched) -> Dict[str, Dict[str, str]]:
+        # No extraction required
+        return fetched
