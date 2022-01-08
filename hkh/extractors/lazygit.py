@@ -11,12 +11,10 @@ class Lazygit(Extractor):
 
     def extract(self, fetched):
         out = {}
-        section_re = re.compile(r"(?<=keybinding:).*", re.DOTALL)
+        section_re = re.compile(r"(?<=keybinding:).*(?=os)", re.DOTALL)
         mode_re = re.compile(r"^  (\S*?):$", re.MULTILINE)
-        key_action_re = re.compile(r"^    (\S*?): '(\S*?)'$", re.MULTILINE)
+        key_action_re = re.compile(r"^    (\S*?): [\"']?(\S*?)[\"']?$", re.MULTILINE)
         # keep the keybinding section
-        content = re.search(section_re, fetched["user"][0])[0]
-        # print(content)
         match = re.search(section_re, fetched["user"][0])
         if match is None:
             raise TypeError("Section match is None")
