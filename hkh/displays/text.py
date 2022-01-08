@@ -6,11 +6,11 @@ class Text(Display):
         if self.has_modes and modes is not None:
             if not (isinstance(modes, list)):
                 modes = [modes]
-            ht_dict = {mode: self.ht_dict[mode] for mode in modes}
+            hk_dict = {mode: self.hk_dict[mode] for mode in modes}
         else:
-            ht_dict = self.ht_dict
+            hk_dict = self.hk_dict
 
-        for k, v in ht_dict.items():
+        for k, v in hk_dict.items():
             if isinstance(v, dict):
                 for key, action in v.items():
                     print(f"{k}: {key}: {action}")
@@ -23,7 +23,7 @@ class Json(Display):
         if self.has_modes and modes is not None:
             if not (isinstance(modes, list)):
                 modes = [modes]
-            ht_dict = {mode: self.ht_dict[mode] for mode in modes}
+            hk_dict = {mode: self.hk_dict[mode] for mode in modes}
         else:
-            ht_dict = self.ht_dict
-        print(ht_dict)
+            hk_dict = self.hk_dict
+        print(hk_dict)
