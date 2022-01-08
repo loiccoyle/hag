@@ -22,6 +22,6 @@ __all__ = sorted(
         "Vim",
         "Termite",
         "Lazygit",
-        "Zsh"
+        "Zsh",
     ]
 )

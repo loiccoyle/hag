@@ -1,9 +1,7 @@
 import re
 from tempfile import mkstemp
 
-from .base import Extractor
-from .base import Command
-from .base import File
+from .base import Command, Extractor, File
 
 
 class Vim(Extractor):

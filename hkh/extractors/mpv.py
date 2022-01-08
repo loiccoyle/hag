@@ -1,12 +1,8 @@
-import re
 import os
-
+import re
 from pathlib import Path
 
-from .base import Extractor
-from .base import Command
-from .base import File
-
+from .base import Command, Extractor, File
 
 # need to add custom config bindings
 

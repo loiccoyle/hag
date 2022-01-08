@@ -1,12 +1,10 @@
-import re
-
-from .base import Extractor
-from .base import Command
+from .base import Command, Extractor
 
 
 class Zsh(Extractor):
     required = [Command("zsh")]
-    sources = {"user": [Command("zsh -c bindkey")]}
+    # TODO: this doesn't work for my setup, my config is not sourced :(
+    sources = {"user": [Command("zsh -ci bindkey")]}
     has_modes = False
 
     @staticmethod

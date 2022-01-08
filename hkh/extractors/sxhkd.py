@@ -1,10 +1,8 @@
 import os
-from pathlib import Path
 import re
+from pathlib import Path
 
-from .base import Extractor
-from .base import Command
-from .base import File
+from .base import Command, Extractor, File
 
 
 class Sxhkd(Extractor):

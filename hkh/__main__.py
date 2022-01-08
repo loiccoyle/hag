@@ -1,9 +1,7 @@
 import argparse
 import sys
 
-from . import __version__
-from . import displays
-from . import extractors
+from . import __version__, displays, extractors
 
 
 def main():

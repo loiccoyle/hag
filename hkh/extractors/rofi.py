@@ -1,7 +1,6 @@
 import re
 
-from .base import Extractor
-from .base import Command
+from .base import Command, Extractor
 
 
 class Rofi(Extractor):
@@ -15,8 +14,6 @@ class Rofi(Extractor):
         return string
 
     def extract(self, fetched):
-        line_match = re.compile(r"(/\*)?\t((kb)|(me)|(ml))")
-        line_clean = re.compile(r"((/\*)|(\*/)|(\t)|(;))")
         content_key_action = re.compile(r".*?(((kb)|(ml)|(me))-.*?):\s+\"(.*?)\"")
         content = fetched["user"][0]
         out = {}
