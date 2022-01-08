@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "hkh"
 version = "0.1.0"
-description = ""
+description = "A hotkey helper."
 authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
 license = "MIT"
 
