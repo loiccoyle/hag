@@ -1,3 +1,3 @@
-# hkh
+# hag
 
-A hotkey helper.
+A hotkey aggregator.
