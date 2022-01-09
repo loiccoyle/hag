@@ -5,7 +5,9 @@ from . import __version__, displays, extractors
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Hotkey aggregator. All your hotkeys in one place.")
+    parser = argparse.ArgumentParser(
+        description="Hotkey aggregator. All your hotkeys in one place."
+    )
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
@@ -37,10 +39,17 @@ def main():
         choices=[i.lower() for i in displays.__all__],
     )
     parser.add_argument(
-        "-m", "--modes", help="filter mode", action="append", default=None
+        "-m",
+        "--modes",
+        help="filter mode",
+        action="append",
+        default=None,
     )
     parser.add_argument(
-        "-v", "--version", action="store_true", help="Show hkh version and exit."
+        "-v",
+        "--version",
+        action="store_true",
+        help="Show hkh version and exit.",
     )
     args = parser.parse_args()
 
