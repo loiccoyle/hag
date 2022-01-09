@@ -48,14 +48,11 @@ def main():
     parser.add_argument(
         "-v",
         "--version",
-        action="store_true",
-        help="Show hkh version and exit.",
+        action="version",
+        help="Show hag version and exit.",
+        version=f"%(prog)s {__version__}",
     )
     args = parser.parse_args()
-
-    if args.version:
-        print(__version__)
-        sys.exit()
 
     if args.list_displays:
         for i in displays.__all__:
