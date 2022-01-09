@@ -58,11 +58,11 @@ def main():
         for i in displays.__all__:
             print(i.lower())
     elif args.list_extractors:
-        for i in extractors.__all__:
+        for extractor in extractors.__all__:
             try:
                 # if the install check passes
-                getattr(extractors, i)()
-                print(i.lower())
+                getattr(extractors, extractor)()
+                print(extractor.lower())
             except OSError:
                 pass
     else:
@@ -79,7 +79,6 @@ def main():
         hotkeys = extractor.extract(fetched)
         # display
         Display(hotkeys, has_modes=extractor.has_modes).show(modes=args.modes)
-    # sys.exit(0)
 
 
 if __name__ == "__main__":
