@@ -1,6 +1,7 @@
 from .lazygit import Lazygit
 from .lf import Lf
 from .mpv import Mpv
+from .neovim import Neovim
 from .qutebrowser import Qutebrowser
 from .rofi import Rofi
 from .sxhkd import Sxhkd
@@ -12,16 +13,17 @@ from .zathura import Zathura
 from .zsh import Zsh
 
 __all__ = [
-        "Lazygit",
-        "Lf",
-        "Mpv",
-        "Qutebrowser",
-        "Rofi",
-        "Sxhkd",
-        "Sxiv",
-        "Termite",
-        "Vim",
-        "Vimiv",
-        "Zathura",
-        "Zsh",
-    ]
+    "Lazygit",
+    "Lf",
+    "Mpv",
+    "Neovim",
+    "Qutebrowser",
+    "Rofi",
+    "Sxhkd",
+    "Sxiv",
+    "Termite",
+    "Vim",
+    "Vimiv",
+    "Zathura",
+    "Zsh",
+]

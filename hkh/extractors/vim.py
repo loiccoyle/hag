@@ -1,19 +1,15 @@
 import re
-from tempfile import mkstemp
 
 from .base import Extractor
-from .sources import Command, File
+from .sources import Command
 
 
 class Vim(Extractor):
-    _temp_file = mkstemp()[1]
     required = [Command("vim")]
     # map won't show autocmd added hotkeys
-    # kinda weird, the first command creates the file for the second source
     sources = {
         "user": [
-            Command(f'vim -c "redir! > {_temp_file} | silent map | redir END | q"'),
-            File(_temp_file),
+            Command(f'vim -e +"redir >> /dev/stdout | map | redir END" -scq'),
         ]
     }
     has_modes = True
@@ -33,7 +29,7 @@ class Vim(Extractor):
             "c": "Command-line",
             "t": "Terminal-Job",
         }
-        content = fetched["user"][1]
+        content = fetched["user"][0]
         # get the key/action
         content_key_action = re.compile(r"(.)\s+(\S+)\s+[@\&\*]?\s*(.*?)\n")
         out = {}
