@@ -82,7 +82,7 @@ A few example uses:
 
 - Show `vim` Normal and Visual mode hotkeys in [`rofi`](https://github.com/davatorium/rofi):
   ```sh
-  hag vim -m Normal | rofi -dmenu
+  hag vim -m Normal -m Visual | rofi -dmenu
   ```
 - Use `rofi` to select software and show hotkeys:
   ```sh
