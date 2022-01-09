@@ -39,5 +39,4 @@ class Qutebrowser(Extractor):
         }
 
     def extract(self, fetched) -> Dict[str, Dict[str, str]]:
-        # No extraction required
         return fetched

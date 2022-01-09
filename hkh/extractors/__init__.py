@@ -7,21 +7,21 @@ from .sxhkd import Sxhkd
 from .sxiv import Sxiv
 from .termite import Termite
 from .vim import Vim
+from .vimiv import Vimiv
 from .zathura import Zathura
 from .zsh import Zsh
 
-__all__ = sorted(
-    [
-        "Zathura",
-        "Sxiv",
+__all__ = [
+        "Lazygit",
+        "Lf",
+        "Mpv",
+        "Qutebrowser",
         "Rofi",
         "Sxhkd",
-        "Qutebrowser",
-        "Mpv",
-        "Lf",
-        "Vim",
+        "Sxiv",
         "Termite",
-        "Lazygit",
+        "Vim",
+        "Vimiv",
+        "Zathura",
         "Zsh",
     ]
-)
