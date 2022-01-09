@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/platform-linux-informational">
 </p>
 
-`hag` is a a hotkey aggregator, it tries its best to extract the hotkeys of your software and display them.
+`hag` is a hotkey aggregator, it tries its best to extract the hotkeys of your software and display them.
 
 It does so by parsing the config files, man pages, command outputs, ... depending on the software.
 
@@ -75,11 +75,9 @@ A few example uses:
   hag sxhkd
   ```
 - Display `sxhkd` hotkeys in json format and format with [`jq`](https://github.com/stedolan/jq):
-
   ```sh
   hag sxhkd -d json | jq
   ```
-
 - Show `vim` Normal and Visual mode hotkeys in [`rofi`](https://github.com/davatorium/rofi):
   ```sh
   hag vim -m Normal -m Visual | rofi -dmenu
