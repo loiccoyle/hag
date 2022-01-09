@@ -1,3 +1,5 @@
+import json
+
 from .base import Display
 
 
@@ -26,4 +28,4 @@ class Json(Display):
             hk_dict = {mode: self.hk_dict[mode] for mode in modes}
         else:
             hk_dict = self.hk_dict
-        print(hk_dict)
+        print(json.dumps(hk_dict))
