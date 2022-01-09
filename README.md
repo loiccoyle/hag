@@ -11,31 +11,37 @@
 It does so by parsing the config files, man pages, command outputs, ... depending on the software.
 
 ## Programs
+
 Bellow is a list of implemented software:
-* Lazygit
-* Lf
-* Mpv
-* Neovim
-* Qutebrowser
-* Rofi
-* Sxhkd
-* Sxiv
-* Termite
-* Vim
-* Vimiv
-* Zathura
-* Zsh
+
+- Lazygit
+- Lf
+- Mpv
+- Neovim
+- Qutebrowser
+- Rofi
+- Sxhkd
+- Sxiv
+- Termite
+- Vim
+- Vimiv
+- Zathura
+- Zsh
 
 ## Installation
+
 ```
 pip install hag
 ```
+
 If you just want to use the CLI interface, consider using [`pipx`](https://github.com/pypa/pipx).
+
 ```
 pipx install hag
 ```
 
 ## Usage
+
 ```
 $ hag --help
 usage: hag [-h] [-le | -ld] [-d {json,text}] [-m MODES] [-v] [{lazygit,lf,mpv,neovim,qutebrowser,rofi,sxhkd,sxiv,termite,vim,vimiv,zathura,zsh}]
@@ -62,22 +68,21 @@ options:
 
 A few example uses:
 
-* List [`sxhkd`](https://github.com/baskerville/sxhkd) hotkeys:
+- List [`sxhkd`](https://github.com/baskerville/sxhkd) hotkeys:
   ```sh
   hag sxhkd
   ```
-  
-* Display `sxhkd` hotkeys in json format and format with [`jq`](https://github.com/stedolan/jq):
+- Display `sxhkd` hotkeys in json format and format with [`jq`](https://github.com/stedolan/jq):
+
   ```sh
   hag sxhkd -d json | jq
   ```
 
-* Show `vim` Normal and Visual mode hotkeys in [`rofi`](https://github.com/davatorium/rofi):
+- Show `vim` Normal and Visual mode hotkeys in [`rofi`](https://github.com/davatorium/rofi):
   ```sh
-  hag vim -m Normal | rofi -dmenu 
+  hag vim -m Normal | rofi -dmenu
   ```
-  
-* Use `rofi` to select software and show hotkeys:
+- Use `rofi` to select software and show hotkeys:
   ```sh
   extractor="$(hag -le | rofi -dmenu)" && hag "$extractor" | rofi -dmenu
   ```
