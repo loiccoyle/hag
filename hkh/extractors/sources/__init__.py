@@ -1,1 +1,1 @@
-from .sources import SourceBase, PythonModule, Command, File, Manpage
+from .sources import Command, File, Manpage, PythonModule, SourceBase
