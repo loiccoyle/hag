@@ -20,11 +20,10 @@ def main():
     group.add_argument(
         "-ld",
         "--list-displays",
-        help="List available display methods",
+        help="List available display methods.",
         action="store_true",
         dest="list_displays",
     )
-
     parser.add_argument(
         "extractor",
         nargs="?",
