@@ -13,14 +13,14 @@ def main():
     group.add_argument(
         "-le",
         "--list-extractors",
-        help="list available hotkey extractors.",
+        help="List available hotkey extractors.",
         action="store_true",
         dest="list_extractors",
     )
     group.add_argument(
         "-ld",
         "--list-displays",
-        help="list available display methods",
+        help="List available display methods",
         action="store_true",
         dest="list_displays",
     )
@@ -28,20 +28,20 @@ def main():
     parser.add_argument(
         "extractor",
         nargs="?",
-        help="extract hotkey using extractor.",
+        help="Extract hotkeys using extractor.",
         choices=[i.lower() for i in extractors.__all__],
     )
     parser.add_argument(
         "-d",
         "--display",
-        help="display method.",
+        help="Display method.",
         default="Text",
         choices=[i.lower() for i in displays.__all__],
     )
     parser.add_argument(
         "-m",
         "--modes",
-        help="filter mode",
+        help="Filter by mode, if supported by extractor.",
         action="append",
         default=None,
     )
