@@ -4,6 +4,14 @@ version = "0.1.0"
 description = "A hotkey aggregator. All your hotkeys in one place."
 authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
 license = "MIT"
+repository = "https://github.com/loiccoyle/hag"
+readme = "README.md"
+classifiers = [
+    "Topic :: Utilities",
+    "Operating System :: Unix",
+    "Programming Language :: Python",
+]
+keywords = ["hotkey", "aggregator", "cli"]
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
