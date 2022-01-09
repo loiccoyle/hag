@@ -1,4 +1,5 @@
-from .base import Command, Extractor
+from .base import Extractor
+from .sources import Command
 
 
 class Zsh(Extractor):

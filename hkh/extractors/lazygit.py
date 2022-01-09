@@ -1,6 +1,7 @@
 import re
 
-from .base import Command, Extractor
+from .base import Extractor
+from .sources import Command
 
 
 # TODO: this is broken

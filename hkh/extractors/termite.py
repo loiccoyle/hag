@@ -1,6 +1,7 @@
 import re
 
-from .base import Command, Extractor, Manpage
+from .base import Extractor
+from .sources import Command, Manpage
 
 
 class Termite(Extractor):

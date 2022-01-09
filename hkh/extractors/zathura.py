@@ -1,6 +1,7 @@
 import re
 
-from .base import Command, Extractor, Manpage, SectionExtract
+from .base import Extractor, SectionExtract
+from .sources import Command, Manpage
 
 
 class Zathura(SectionExtract, Extractor):

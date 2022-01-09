@@ -1,7 +1,8 @@
 import os
 from typing import Dict
 
-from .base import Extractor, PythonModule
+from .base import Extractor
+from .sources import PythonModule
 
 
 class Qutebrowser(Extractor):

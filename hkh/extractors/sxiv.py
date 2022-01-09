@@ -2,7 +2,8 @@ import os
 import re
 from pathlib import Path
 
-from .base import Command, Extractor, File, Manpage
+from .base import Extractor
+from .sources import Command, File, Manpage
 
 
 class Sxiv(Extractor):
