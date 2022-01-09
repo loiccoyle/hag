@@ -5,7 +5,7 @@ from . import __version__, displays, extractors
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Extracts and displays hotkeys.")
+    parser = argparse.ArgumentParser(description="Hotkey aggregator. All your hotkeys in one place.")
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
