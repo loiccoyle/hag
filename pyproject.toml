@@ -6,7 +6,7 @@ authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.6.1"
 
 [tool.poetry.dev-dependencies]
 
