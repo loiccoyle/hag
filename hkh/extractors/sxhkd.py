@@ -2,6 +2,7 @@ import os
 import re
 from pathlib import Path
 
+from ..type_specs import Hotkeys
 from .base import Extractor
 from .sources import Command, File
 
@@ -41,7 +42,7 @@ class Sxhkd(Extractor):
         string = string.replace(" + ", "+")
         return string
 
-    def extract(self, fetched):
+    def extract(self, fetched) -> Hotkeys:
         fetched = self._clean_fetched(fetched["user"][0])
         fetched = iter(fetched)
         out = {}

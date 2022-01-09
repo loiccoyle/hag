@@ -2,6 +2,7 @@ import os
 import re
 from pathlib import Path
 
+from ..type_specs import Hotkeys
 from .base import Extractor
 from .sources import Command, File
 
@@ -26,7 +27,7 @@ class Mpv(Extractor):
         string = re.sub(r"\s+", " ", string)
         return string
 
-    def extract(self, fetched):
+    def extract(self, fetched) -> Hotkeys:
         out = {}
         content_key_action = re.compile(r"^#(\S+)\s+(.*)\n", re.MULTILINE)
         # remove this stray line to make the regex easier

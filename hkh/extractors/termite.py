@@ -1,5 +1,6 @@
 import re
 
+from ..type_specs import HotkeysWithModes
 from .base import Extractor
 from .sources import Command, Manpage
 
@@ -9,7 +10,7 @@ class Termite(Extractor):
     sources = {"default": [Manpage("termite")]}
     has_modes = True
 
-    def extract(self, fetched):
+    def extract(self, fetched) -> HotkeysWithModes:
         content = fetched["default"][0]
         # remove some stray groff tags
         content_clean = re.compile(r"(\\f[PBI])")

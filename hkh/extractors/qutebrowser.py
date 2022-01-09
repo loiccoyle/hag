@@ -1,6 +1,6 @@
 import os
-from typing import Dict
 
+from ..type_specs import HotkeysWithModes
 from .base import Extractor
 from .sources import PythonModule
 
@@ -9,7 +9,7 @@ class Qutebrowser(Extractor):
     required = [PythonModule("qutebrowser")]
     has_modes = True
 
-    def fetch(self) -> Dict[str, Dict[str, str]]:
+    def fetch(self) -> HotkeysWithModes:
         # based on: https://github.com/qutebrowser/qutebrowser/blob/master/qutebrowser/config/configinit.py#L40
         from qutebrowser.config import config, configdata, configfiles
         from qutebrowser.utils import standarddir
@@ -38,5 +38,5 @@ class Qutebrowser(Extractor):
             for mode in modes
         }
 
-    def extract(self, fetched) -> Dict[str, Dict[str, str]]:
+    def extract(self, fetched: HotkeysWithModes) -> HotkeysWithModes:
         return fetched

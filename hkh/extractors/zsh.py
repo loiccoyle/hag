@@ -1,3 +1,4 @@
+from ..type_specs import Hotkeys
 from .base import Extractor
 from .sources import Command
 
@@ -9,11 +10,11 @@ class Zsh(Extractor):
     has_modes = False
 
     @staticmethod
-    def _clean_key(string):
+    def _clean_key(string: str):
         string = string.replace('"', "")
         return string
 
-    def extract(self, fetched):
+    def extract(self, fetched) -> Hotkeys:
         content = fetched["user"][0]
         out = {}
         for line in content.split("\n"):

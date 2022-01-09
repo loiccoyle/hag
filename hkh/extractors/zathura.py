@@ -1,5 +1,6 @@
 import re
 
+from ..type_specs import HotkeysWithModes
 from .base import Extractor, SectionExtract
 from .sources import Command, Manpage
 
@@ -21,7 +22,7 @@ class Zathura(SectionExtract, Extractor):
         string = string.replace("\\-", "-").replace("\\(aq", "'")
         return string
 
-    def extract(self, fetched):
+    def extract(self, fetched) -> HotkeysWithModes:
         content = fetched["default"][0]
         # select section from manpage
         content_section = re.compile(r"\.SH MOUSE AND KEY BINDINGS.*?\.SH", re.DOTALL)

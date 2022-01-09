@@ -1,5 +1,6 @@
 import re
 
+from ..type_specs import HotkeysWithModes
 from .base import Extractor
 from .sources import Command
 
@@ -14,7 +15,7 @@ class Vim(Extractor):
     }
     has_modes = True
 
-    def extract(self, fetched):
+    def extract(self, fetched) -> HotkeysWithModes:
         # convert vim mode notation to human, from :help map
         mode_map = {
             " ": "Normal, Visual, Select, Operator-pending",

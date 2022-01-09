@@ -2,6 +2,7 @@ import os
 import re
 from pathlib import Path
 
+from ..type_specs import HotkeysWithModes
 from .base import Extractor
 from .sources import Command, File, Manpage
 
@@ -24,7 +25,7 @@ class Sxiv(Extractor):
     def _clean_key(string):
         return string.replace(r"\-", "-").strip()
 
-    def extract(self, fetched):
+    def extract(self, fetched) -> HotkeysWithModes:
         content = fetched["default"][0]
         # to select section from manpage
         content_section = re.compile(r"\.SH KEYBOARD COMMANDS.*?\.SH", re.DOTALL)

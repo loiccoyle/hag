@@ -1,5 +1,6 @@
 import re
 
+from ..type_specs import Hotkeys
 from .base import Extractor
 from .sources import Command
 
@@ -14,7 +15,7 @@ class Rofi(Extractor):
         string = string.lstrip()[1:-1]
         return string
 
-    def extract(self, fetched):
+    def extract(self, fetched) -> Hotkeys:
         content_key_action = re.compile(r".*?(((kb)|(ml)|(me))-.*?):\s+\"(.*?)\"")
         content = fetched["user"][0]
         out = {}

@@ -1,5 +1,6 @@
 import re
 
+from ..type_specs import HotkeysWithModes
 from .base import Extractor
 from .sources import Command
 
@@ -10,7 +11,7 @@ class Lazygit(Extractor):
     sources = {"user": [Command("lazygit -c")]}
     has_modes = True
 
-    def extract(self, fetched):
+    def extract(self, fetched) -> HotkeysWithModes:
         out = {}
         section_re = re.compile(r"(?<=keybinding:).*(?=os)", re.DOTALL)
         mode_re = re.compile(r"^  (\S*?):$", re.MULTILINE)

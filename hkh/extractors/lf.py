@@ -2,6 +2,7 @@ import os
 import re
 from pathlib import Path
 
+from ..type_specs import Hotkeys
 from .base import Extractor
 from .sources import Command, File
 
@@ -14,7 +15,7 @@ class Lf(Extractor):
     }
     has_modes = False
 
-    def extract(self, fetched):
+    def extract(self, fetched) -> Hotkeys:
         content_clean = re.compile(r".*?((boolean)|(string)|(integer)).*\n")
         content_section = re.compile(r"Reference.*?Configuration", re.DOTALL)
         default_key_action = re.compile(r"\s*(.*?)\s*\(default (.*)\)")

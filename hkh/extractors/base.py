@@ -2,6 +2,7 @@ import re
 from abc import abstractmethod
 from typing import Dict, List, Optional, Union
 
+from ..type_specs import Hotkeys, HotkeysWithModes
 from .sources import SourceBase
 
 
@@ -27,7 +28,7 @@ class Extractor:
     @abstractmethod
     def extract(
         self, fetched: Dict[str, List[str]]
-    ) -> Dict[str, Union[str, Dict[str, str]]]:
+    ) -> Union[Hotkeys, HotkeysWithModes]:
         """Must return a dict with structure:
         if has_modes: {'mode': {'hotkey': 'action'}}
         else: {'hotkey': 'action'}
@@ -38,16 +39,16 @@ class Extractor:
 class SectionExtract:
     """Helper methods to assist in handling man page source documents."""
 
-    def find_sections(self, content, pattern=r"\.SH"):
+    def find_sections(self, content: str, pattern: str = r"\.SH"):
         sections = self.find_between(content, pattern)
         return dict([self.split_title(s) for s in sections])
 
     @staticmethod
-    def find_between(content, pattern):
+    def find_between(content: str, pattern: str):
         return re.findall(rf"(?<={pattern})(.*?)(?={pattern}|$)", content, re.DOTALL)
 
     @staticmethod
-    def split_title(content, pattern="\n"):
+    def split_title(content: str, pattern="\n"):
         content = content.lstrip()
         content = content.replace('"', "")
         first_split = content.index(pattern)
