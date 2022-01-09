@@ -30,6 +30,8 @@ Bellow is a list of implemented software:
 
 ## Installation
 
+`hag` is meant to be relatively minimal, as such it doesn't have any dependencies.
+
 ```
 pip install hag
 ```
