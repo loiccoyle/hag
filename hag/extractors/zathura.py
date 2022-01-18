@@ -1,7 +1,7 @@
 import re
 
 from ..type_specs import HotkeysWithModes
-from .base import Extractor, SectionExtract
+from ._base import Extractor, SectionExtract
 from .sources import Command, Manpage
 
 

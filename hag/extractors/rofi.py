@@ -1,7 +1,7 @@
 import re
 
 from ..type_specs import Hotkeys
-from .base import Extractor
+from ._base import Extractor
 from .sources import Command
 
 

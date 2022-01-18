@@ -1,7 +1,7 @@
 import os
 
 from ..type_specs import HotkeysWithModes
-from .base import Extractor
+from ._base import Extractor
 from .sources import PythonModule
 
 

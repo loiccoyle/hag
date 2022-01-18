@@ -1,6 +1,6 @@
 import json
 
-from .base import Display
+from ._base import Display
 
 
 class Text(Display):
