@@ -14,7 +14,6 @@ It does so by parsing the config files, man pages, command outputs, ... dependin
 
 Bellow is a list of implemented software:
 
-- Lazygit
 - Lf
 - Mpv
 - Neovim
