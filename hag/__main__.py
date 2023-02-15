@@ -40,6 +40,7 @@ def main():
     parser.add_argument(
         "-m",
         "--modes",
+        metavar="MODE",
         help="Filter by mode, if supported by parser.",
         action="append",
         default=None,
