@@ -6,6 +6,7 @@ from abc import abstractmethod
 from pathlib import Path
 from shutil import which
 from typing import Union
+from urllib import request
 
 
 # Content sources
@@ -84,6 +85,23 @@ class Manpage(SourceBase):
         )
         all_pages = [page.split()[0] for page in all_pages if page]
         return self.source in all_pages
+
+    def __repr__(self) -> str:
+        return repr(self.source)
+
+
+class Web(SourceBase):
+    def __init__(self, url: str):
+        self.source = url
+
+    def fetch(self) -> str:
+        f = request.urlopen(self.source)
+        contents = f.read().decode("utf8")
+        return contents
+
+    def check(self) -> bool:
+        f = request.urlopen(self.source)
+        return f.code == 200
 
     def __repr__(self) -> str:
         return repr(self.source)

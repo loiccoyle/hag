@@ -1,3 +1,4 @@
+from .alacritty import Alacritty
 from .lf import Lf
 from .mpv import Mpv
 from .neovim import Neovim
@@ -12,6 +13,7 @@ from .zathura import Zathura
 from .zsh import Zsh
 
 __all__ = [
+    "Alacritty",
     "Lf",
     "Mpv",
     "Neovim",
