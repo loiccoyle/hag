@@ -47,7 +47,7 @@ pipx install hag
 
 ```
 $ hag -h
-usage: hag [-h] [-lp | -ld] [-d {json,text}] [-m MODES] [-v]
+usage: hag [-h] [-lp | -ld] [-d {json,text}] [-m MODE] [-v]
            [{alacritty,lf,mpv,neovim,qutebrowser,rofi,sxhkd,sxiv,termite,vim,vimiv,zathura,zsh}]
 
 Hotkey aggregator. All your hotkeys in one place.
@@ -62,7 +62,7 @@ optional arguments:
   -ld, --list-displays  List available display methods.
   -d {json,text}, --display {json,text}
                         Display method.
-  -m MODES, --modes MODES
+  -m MODE, --modes MODE
                         Filter by mode, if supported by parser.
   -v, --version         Show hag version and exit.
 ```
