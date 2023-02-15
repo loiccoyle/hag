@@ -87,7 +87,7 @@ A few example uses:
   ```
 - Use `rofi` to select software and show hotkeys:
   ```sh
-  extractor="$(hag -le | rofi -dmenu)" && hag "$extractor" | rofi -dmenu
+  parser="$(hag -le | rofi -dmenu)" && hag "$parser" | rofi -dmenu
   ```
 
 # Contributing
