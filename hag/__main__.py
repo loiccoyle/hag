@@ -5,11 +5,11 @@ from . import __version__, displays, parsers
 
 
 def main():
-    parser = argparse.ArgumentParser(
+    arg_parser = argparse.ArgumentParser(
         description="Hotkey aggregator. All your hotkeys in one place."
     )
 
-    group = parser.add_mutually_exclusive_group()
+    group = arg_parser.add_mutually_exclusive_group()
     group.add_argument(
         "-lp",
         "--list-parsers",
@@ -24,20 +24,20 @@ def main():
         action="store_true",
         dest="list_displays",
     )
-    parser.add_argument(
+    arg_parser.add_argument(
         "parser",
         nargs="?",
         help="Extract hotkeys using parser.",
         choices=[i.lower() for i in parsers.__all__],
     )
-    parser.add_argument(
+    arg_parser.add_argument(
         "-d",
         "--display",
         help="Display method.",
         default="Text",
         choices=[i.lower() for i in displays.__all__],
     )
-    parser.add_argument(
+    arg_parser.add_argument(
         "-m",
         "--modes",
         metavar="MODE",
@@ -45,14 +45,14 @@ def main():
         action="append",
         default=None,
     )
-    parser.add_argument(
+    arg_parser.add_argument(
         "-v",
         "--version",
         action="version",
         help="Show hag version and exit.",
         version=f"%(prog)s {__version__}",
     )
-    args = parser.parse_args()
+    args = arg_parser.parse_args()
 
     if args.list_displays:
         for i in displays.__all__:
@@ -67,7 +67,7 @@ def main():
                 pass
     else:
         if args.parser is None:
-            parser.print_help()
+            arg_parser.print_help()
             sys.exit(1)
         # get the desired parser and display
         Parser = getattr(parsers, args.parser.title())
