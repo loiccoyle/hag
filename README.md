@@ -10,9 +10,9 @@
 
 It does so by parsing the config files, man pages, command outputs, ... depending on the software.
 
-## Programs
+## Hotkey parsers
 
-Bellow is a list of implemented software:
+Bellow is a list of implemented hotkey parsers:
 
 <!-- parsers start -->
 
