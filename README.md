@@ -46,7 +46,7 @@ pipx install hag
 <!-- help start -->
 
 ```
-$ localleaf -h
+$ hag -h
 ```
 
 <!-- help end -->
