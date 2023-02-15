@@ -61,7 +61,7 @@ positional arguments:
   {alacritty,lf,mpv,neovim,qutebrowser,rofi,sxhkd,sxiv,termite,vim,vimiv,zathura,zsh}
                         Extract hotkeys using parser.
 
-options:
+optional arguments:
   -h, --help            show this help message and exit
   -lp, --list-parsers   List available hotkey parsers.
   -ld, --list-displays  List available display methods.
