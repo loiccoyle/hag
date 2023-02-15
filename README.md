@@ -14,6 +14,9 @@ It does so by parsing the config files, man pages, command outputs, ... dependin
 
 Bellow is a list of implemented software:
 
+<!-- parsers start -->
+
+- Alacritty
 - Lf
 - Mpv
 - Neovim
@@ -26,6 +29,8 @@ Bellow is a list of implemented software:
 - Vimiv
 - Zathura
 - Zsh
+
+<!-- parsers end -->
 
 ## Installation
 
@@ -56,7 +61,7 @@ positional arguments:
   {alacritty,lf,mpv,neovim,qutebrowser,rofi,sxhkd,sxiv,termite,vim,vimiv,zathura,zsh}
                         Extract hotkeys using parser.
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -lp, --list-parsers   List available hotkey parsers.
   -ld, --list-displays  List available display methods.
