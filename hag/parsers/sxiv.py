@@ -3,11 +3,11 @@ import re
 from pathlib import Path
 
 from ..type_specs import HotkeysWithModes
-from ._base import Extractor
+from ._base import Parser
 from .sources import Command, File, Manpage
 
 
-class Sxiv(Extractor):
+class Sxiv(Parser):
     required = [Command("sxiv")]
     sources = {
         "default": [Manpage("sxiv")],

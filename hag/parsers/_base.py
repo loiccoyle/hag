@@ -6,7 +6,7 @@ from ..type_specs import Hotkeys, HotkeysWithModes
 from .sources import SourceBase
 
 
-class Extractor:
+class Parser:
     has_modes: Optional[bool] = None
     sources: Optional[Dict[str, List[SourceBase]]] = None
     required: Optional[List[SourceBase]] = None

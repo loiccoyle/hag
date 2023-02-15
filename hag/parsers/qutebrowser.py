@@ -1,11 +1,11 @@
 import os
 
 from ..type_specs import HotkeysWithModes
-from ._base import Extractor
+from ._base import Parser
 from .sources import PythonModule
 
 
-class Qutebrowser(Extractor):
+class Qutebrowser(Parser):
     required = [PythonModule("qutebrowser")]
     has_modes = True
 

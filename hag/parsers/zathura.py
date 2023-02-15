@@ -1,11 +1,11 @@
 import re
 
 from ..type_specs import HotkeysWithModes
-from ._base import Extractor, SectionExtract
+from ._base import Parser, SectionExtract
 from .sources import Command, Manpage
 
 
-class Zathura(SectionExtract, Extractor):
+class Zathura(SectionExtract, Parser):
     required = [Command("zathura")]
     sources = {"default": [Manpage("zathura")]}
     has_modes = True

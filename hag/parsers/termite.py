@@ -1,11 +1,11 @@
 import re
 
 from ..type_specs import HotkeysWithModes
-from ._base import Extractor
+from ._base import Parser
 from .sources import Command, Manpage
 
 
-class Termite(Extractor):
+class Termite(Parser):
     required = [Command("termite")]
     sources = {"default": [Manpage("termite")]}
     has_modes = True

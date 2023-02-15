@@ -1,9 +1,9 @@
 from ..type_specs import Hotkeys
-from ._base import Extractor
+from ._base import Parser
 from .sources import Command
 
 
-class Zsh(Extractor):
+class Zsh(Parser):
     required = [Command("zsh")]
     # TODO: this doesn't work for my setup, my config is not sourced :(
     sources = {"user": [Command("zsh -ci bindkey")]}

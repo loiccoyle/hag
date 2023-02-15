@@ -3,13 +3,13 @@ import re
 from pathlib import Path
 
 from ..type_specs import Hotkeys
-from ._base import Extractor
+from ._base import Parser
 from .sources import Command, File
 
 # need to add custom config bindings
 
 
-class Mpv(Extractor):
+class Mpv(Parser):
     required = [Command("mpv")]
     sources = {
         "system": [

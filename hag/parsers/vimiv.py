@@ -1,9 +1,9 @@
 from ..type_specs import HotkeysWithModes
-from ._base import Extractor
+from ._base import Parser
 from .sources import PythonModule
 
 
-class Vimiv(Extractor):
+class Vimiv(Parser):
     required = [PythonModule("vimiv")]
     has_modes = True
 

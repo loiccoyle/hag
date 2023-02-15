@@ -1,11 +1,11 @@
 import re
 
 from ..type_specs import Hotkeys
-from ._base import Extractor
+from ._base import Parser
 from .sources import Command
 
 
-class Rofi(Extractor):
+class Rofi(Parser):
     required = [Command("rofi")]
     sources = {"user": [Command("rofi -dump-config")]}
     has_modes = False

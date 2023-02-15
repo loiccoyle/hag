@@ -4,17 +4,17 @@ from typing import Dict, List
 
 try:
     import yaml
-except ModuleNotFoundError as e:
+except ModuleNotFoundError:
     print("alacritty config file parsing requires 'pyyaml'.")
-    raise e
+    yaml = None
 
 from ..type_specs import HotkeysWithModes
-from ._base import Extractor
-from .sources import Command, File, Web
+from ._base import Parser
+from .sources import Command, File, PythonModule, Web
 
 
-class Alacritty(Extractor):
-    required = [Command("alacritty")]
+class Alacritty(Parser):
+    required = [Command("alacritty"), PythonModule("pyyaml")]
     sources = {
         "default": [
             Web(
@@ -58,6 +58,10 @@ class Alacritty(Extractor):
         return "\n".join(out)
 
     def extract(self, fetched: Dict[str, List[str]]) -> HotkeysWithModes:
+        if yaml is None:
+            raise ImportError(
+                "'pyyaml' is required to parse the alacritty config file."
+            )
         out = {}
         for source, contents in fetched.items():
             contents = contents[0]

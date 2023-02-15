@@ -1,11 +1,11 @@
 import re
 
 from ..type_specs import HotkeysWithModes
-from ._base import Extractor
+from ._base import Parser
 from .sources import Command
 
 
-class Vim(Extractor):
+class Vim(Parser):
     required = [Command("vim")]
     # map won't show autocmd added hotkeys
     sources = {
