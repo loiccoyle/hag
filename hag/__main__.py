@@ -11,7 +11,7 @@ def main():
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
-        "-le",
+        "-lp",
         "--list-parsers",
         help="List available hotkey parsers.",
         action="store_true",
