@@ -6,16 +6,15 @@ from ..type_specs import HotkeysWithModes
 from ._base import Parser
 from .sources import Command, File, PythonModule, Web
 
-# TODO: switch to reading the file at /usr/share/doc/alacritty/example/alacritty.yml
-
 
 class Alacritty(Parser):
     required = [Command("alacritty"), PythonModule("pyyaml")]
     sources = {
-        "default": [
+        "default": [File(Path("/usr/share/doc/alacritty/example/alacritty.yml"))],
+        "default_web": [
             Web(
                 "https://raw.githubusercontent.com/alacritty/alacritty/master/alacritty.yml"
-            )
+            ),
         ],
         "user": [
             File(
@@ -40,7 +39,7 @@ class Alacritty(Parser):
             return bind["key"]
 
     @staticmethod
-    def _clean_web(contents: str) -> str:
+    def _clean_default(contents: str) -> str:
         keep_line = False
         out = []
         for line in contents.split("\n"):
@@ -59,8 +58,8 @@ class Alacritty(Parser):
         out = {}
         for source, contents in fetched.items():
             contents = contents[0]
-            if source == "default":
-                contents = self._clean_web(contents)
+            if source in ["default_web", "default"]:
+                contents = self._clean_default(contents)
             config_yml = yaml.safe_load(contents)
             for bind in config_yml["key_bindings"]:
                 mode = bind.get("mode", "normal")
