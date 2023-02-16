@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hag"
-version = "0.3.0"
+version = "0.3.1"
 description = "A hotkey aggregator. All your hotkeys in one place."
 authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
 license = "MIT"
