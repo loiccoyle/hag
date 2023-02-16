@@ -10,7 +10,7 @@ class Vimiv(Parser):
     def fetch(self) -> HotkeysWithModes:
         from vimiv import api
 
-        return {mode: dict(keys) for mode, keys in api.keybindings.items()}
+        return {mode: dict(keys) for mode, keys in api.keybindings.items()}  # type: ignore
 
-    def parse(self, fetched) -> HotkeysWithModes:
+    def parse(self, fetched: HotkeysWithModes) -> HotkeysWithModes:
         return fetched
