@@ -22,9 +22,9 @@ Bellow is a list of implemented hotkey parsers:
 - Neovim
 - Qutebrowser
 - Rofi
+- Sioyek
 - Sxhkd
 - Sxiv
-- Sioyek
 - Termite
 - Vim
 - Vimiv
@@ -60,12 +60,12 @@ pipx install 'hag[all]'
 ```
 $ hag -h
 usage: hag [-h] [-lp | -ld] [-d {json,text}] [-m MODE] [-v]
-           [{alacritty,lf,mpv,neovim,qutebrowser,rofi,sxhkd,sxiv,sioyek,termite,vim,vimiv,zathura,zsh}]
+           [{alacritty,lf,mpv,neovim,qutebrowser,rofi,sioyek,sxhkd,sxiv,termite,vim,vimiv,zathura,zsh}]
 
 Hotkey aggregator. All your hotkeys in one place.
 
 positional arguments:
-  {alacritty,lf,mpv,neovim,qutebrowser,rofi,sxhkd,sxiv,sioyek,termite,vim,vimiv,zathura,zsh}
+  {alacritty,lf,mpv,neovim,qutebrowser,rofi,sioyek,sxhkd,sxiv,termite,vim,vimiv,zathura,zsh}
                         Extract hotkeys using parser.
 
 optional arguments:
