@@ -35,16 +35,22 @@ Bellow is a list of implemented hotkey parsers:
 
 ## Installation
 
-`hag` is meant to be relatively minimal, as such it doesn't have any dependencies.
+`hag` is meant to be minimal, however some parsers require optional dependencies, which can be individually installed:
+
+- Mpv: `python-mpv` -> `pip install 'hag[mpv]'`
+- Neovim: `pynvim` -> `pip install 'hag[neovim]'`
+- Alacritty: `pyyaml` -> `pip install 'hag[alacritty]'`
+
+To install `hag` with all the parser dependencies:
 
 ```
-pip install hag
+pip install 'hag[all]'
 ```
 
 If you just want to use the CLI interface, consider using [`pipx`](https://github.com/pypa/pipx).
 
 ```
-pipx install hag
+pipx install 'hag[all]'
 ```
 
 ## Usage
