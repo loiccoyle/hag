@@ -15,7 +15,7 @@ class Rofi(Parser):
         string = string.lstrip()[1:-1]
         return string
 
-    def extract(self, fetched) -> Hotkeys:
+    def parse(self, fetched) -> Hotkeys:
         content_key_action = re.compile(r".*?(((kb)|(ml)|(me))-.*?):\s+\"(.*?)\"")
         content = fetched["user"][0]
         out = {}

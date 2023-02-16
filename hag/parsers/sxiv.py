@@ -25,7 +25,7 @@ class Sxiv(Parser):
     def _clean_key(string):
         return string.replace(r"\-", "-").strip()
 
-    def extract(self, fetched) -> HotkeysWithModes:
+    def parse(self, fetched) -> HotkeysWithModes:
         content = fetched["default"][0]
         # to select section from manpage
         content_section = re.compile(r"\.SH KEYBOARD COMMANDS.*?\.SH", re.DOTALL)
@@ -56,7 +56,7 @@ class Sxiv(Parser):
                 action = self._clean_action(key_action[2])
                 out[mode][key] = action
 
-        # extract key_handler
+        # parse key_handler
         if fetched["key_handler"]:
             out["key-handler"] = {}
             content = fetched["key_handler"][0]

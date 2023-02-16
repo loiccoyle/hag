@@ -10,7 +10,7 @@ class Termite(Parser):
     sources = {"default": [Manpage("termite")]}
     has_modes = True
 
-    def extract(self, fetched) -> HotkeysWithModes:
+    def parse(self, fetched) -> HotkeysWithModes:
         content = fetched["default"][0]
         # remove some stray groff tags
         content_clean = re.compile(r"(\\f[PBI])")

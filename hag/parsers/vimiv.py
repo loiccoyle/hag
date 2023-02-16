@@ -12,5 +12,5 @@ class Vimiv(Parser):
 
         return {mode: dict(keys) for mode, keys in api.keybindings.items()}
 
-    def extract(self, fetched) -> HotkeysWithModes:
+    def parse(self, fetched) -> HotkeysWithModes:
         return fetched

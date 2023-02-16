@@ -15,7 +15,7 @@ class Vim(Parser):
     }
     has_modes = True
 
-    def extract(self, fetched) -> HotkeysWithModes:
+    def parse(self, fetched) -> HotkeysWithModes:
         # convert vim mode notation to human, from :help map
         mode_map = {
             " ": "Normal, Visual, Select, Operator-pending",

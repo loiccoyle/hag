@@ -15,13 +15,13 @@ class Lf(Parser):
     }
     has_modes = False
 
-    def extract(self, fetched) -> Hotkeys:
+    def parse(self, fetched) -> Hotkeys:
         content_clean = re.compile(r".*?((boolean)|(string)|(integer)).*\n")
         content_section = re.compile(r"Reference.*?Configuration", re.DOTALL)
         default_key_action = re.compile(r"\s*(.*?)\s*\(default (.*)\)")
         map_key_action = re.compile(r"\s*map\s(\w+)\s*(.*)\n")
         content_clean_quote = re.compile(r'(?<!")\'(?!")')
-        # extract the default bindings
+        # parse the default bindings
         # get the desired section
         match = re.search(content_section, fetched["default"][0])
         if match is None:
@@ -39,7 +39,7 @@ class Lf(Parser):
         for match in re.finditer(map_key_action, content):
             out[match[1]] = match[2]
 
-        # extract the user bindings
+        # parse the user bindings
         if fetched["user"]:
             content = fetched["user"][0]
             for match in re.finditer(map_key_action, content):

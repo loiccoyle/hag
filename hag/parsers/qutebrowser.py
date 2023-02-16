@@ -38,5 +38,5 @@ class Qutebrowser(Parser):
             for mode in modes
         }
 
-    def extract(self, fetched: HotkeysWithModes) -> HotkeysWithModes:
+    def parse(self, fetched: HotkeysWithModes) -> HotkeysWithModes:
         return fetched

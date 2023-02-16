@@ -76,7 +76,7 @@ def main():
         # load hotkeys
         parser = Parser()
         fetched = parser.fetch()
-        hotkeys = parser.extract(fetched)
+        hotkeys = parser.parse(fetched)
         # display
         Display(hotkeys, has_modes=parser.has_modes).show(modes=args.modes)
 

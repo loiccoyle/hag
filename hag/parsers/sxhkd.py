@@ -42,7 +42,7 @@ class Sxhkd(Parser):
         string = string.replace(" + ", "+")
         return string
 
-    def extract(self, fetched) -> Hotkeys:
+    def parse(self, fetched) -> Hotkeys:
         fetched = self._clean_fetched(fetched["user"][0])
         fetched = iter(fetched)
         out = {}

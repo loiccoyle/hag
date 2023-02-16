@@ -57,7 +57,7 @@ class Alacritty(Parser):
                 out.append(line.replace("#", ""))
         return "\n".join(out)
 
-    def extract(self, fetched: Dict[str, List[str]]) -> HotkeysWithModes:
+    def parse(self, fetched: Dict[str, List[str]]) -> HotkeysWithModes:
         if yaml is None:
             raise ImportError(
                 "'pyyaml' is required to parse the alacritty config file."

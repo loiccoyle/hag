@@ -26,9 +26,7 @@ class Parser:
         return out
 
     @abstractmethod
-    def extract(
-        self, fetched: Dict[str, List[str]]
-    ) -> Union[Hotkeys, HotkeysWithModes]:
+    def parse(self, fetched: Dict[str, List[str]]) -> Union[Hotkeys, HotkeysWithModes]:
         """Must return a dict with structure:
         if has_modes: {'mode': {'hotkey': 'action'}}
         else: {'hotkey': 'action'}
@@ -36,7 +34,7 @@ class Parser:
         pass
 
 
-class SectionExtract:
+class SectionParse:
     """Helper methods to assist in handling man page source documents."""
 
     def find_sections(self, content: str, pattern: str = r"\.SH"):

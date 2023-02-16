@@ -14,7 +14,7 @@ class Zsh(Parser):
         string = string.replace('"', "")
         return string
 
-    def extract(self, fetched) -> Hotkeys:
+    def parse(self, fetched) -> Hotkeys:
         content = fetched["user"][0]
         out = {}
         for line in content.split("\n"):
