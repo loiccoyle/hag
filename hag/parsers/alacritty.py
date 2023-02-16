@@ -4,7 +4,7 @@ from typing import Dict, List
 
 from ..type_specs import HotkeysWithModes
 from ._base import Parser
-from .sources import Command, File, PythonModule, Web
+from .sources import Command, File, PythonModule, WebPage
 
 
 class Alacritty(Parser):
@@ -12,7 +12,7 @@ class Alacritty(Parser):
     sources = {
         "default": [File(Path("/usr/share/doc/alacritty/example/alacritty.yml"))],
         "default_web": [
-            Web(
+            WebPage(
                 "https://raw.githubusercontent.com/alacritty/alacritty/master/alacritty.yml"
             ),
         ],

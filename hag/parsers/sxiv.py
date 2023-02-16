@@ -4,13 +4,13 @@ from pathlib import Path
 
 from ..type_specs import HotkeysWithModes
 from ._base import Parser
-from .sources import Command, File, Manpage
+from .sources import Command, File, ManPage
 
 
 class Sxiv(Parser):
     required = bool(Command("sxiv"))
     sources = {
-        "default": [Manpage("sxiv")],
+        "default": [ManPage("sxiv")],
         "key_handler": [
             File(Path(os.environ["XDG_CONFIG_HOME"]) / "sxiv" / "exec" / "key-handler")
         ],

@@ -2,12 +2,12 @@ import re
 
 from ..type_specs import HotkeysWithModes
 from ._base import Parser, SectionParse
-from .sources import Command, Manpage
+from .sources import Command, ManPage
 
 
 class Zathura(SectionParse, Parser):
     required = bool(Command("zathura"))
-    sources = {"default": [Manpage("zathura")]}
+    sources = {"default": [ManPage("zathura")]}
     has_modes = True
 
     @staticmethod

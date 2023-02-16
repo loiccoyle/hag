@@ -3,12 +3,12 @@ from abc import abstractmethod
 from typing import Dict, List, Optional, Union
 
 from ..type_specs import Hotkeys, HotkeysWithModes
-from .sources import SourceBase
+from .sources._base import Source
 
 
 class Parser:
     has_modes: Optional[bool] = None
-    sources: Optional[Dict[str, List[SourceBase]]] = None
+    sources: Optional[Dict[str, List[Source]]] = None
     required: Optional[bool] = None
 
     def __init__(self):

@@ -2,12 +2,12 @@ import re
 
 from ..type_specs import HotkeysWithModes
 from ._base import Parser
-from .sources import Command, Manpage
+from .sources import Command, ManPage
 
 
 class Termite(Parser):
     required = bool(Command("termite"))
-    sources = {"default": [Manpage("termite")]}
+    sources = {"default": [ManPage("termite")]}
     has_modes = True
 
     def parse(self, fetched) -> HotkeysWithModes:

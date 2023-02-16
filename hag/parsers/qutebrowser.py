@@ -11,8 +11,8 @@ class Qutebrowser(Parser):
 
     def fetch(self) -> HotkeysWithModes:
         # based on: https://github.com/qutebrowser/qutebrowser/blob/master/qutebrowser/config/configinit.py#L40
-        from qutebrowser.config import config, configdata, configfiles
-        from qutebrowser.utils import standarddir
+        from qutebrowser.config import config, configdata, configfiles  # type: ignore
+        from qutebrowser.utils import standarddir  # type: ignore
 
         standarddir._init_dirs()
         configdata.init()
