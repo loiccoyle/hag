@@ -19,6 +19,12 @@ class Parser:
                 )
 
     def fetch(self) -> Dict[str, List[str]]:
+        """Default fetch method. Iterates through the `sources` and calls each source's
+        `fetch` method.
+
+        Returns:
+            Dictionary of the sources' contents.
+        """
         if self.sources is None:
             raise TypeError("Can't fetch, 'sources' attribute is None.")
 
@@ -29,9 +35,11 @@ class Parser:
 
     @abstractmethod
     def parse(self, fetched: Dict[str, List[str]]) -> Union[Hotkeys, HotkeysWithModes]:
-        """Must return a dict with structure:
-        if has_modes: {'mode': {'hotkey': 'action'}}
-        else: {'hotkey': 'action'}
+        """Parse the fetched sources and generate a Hotkey dictionary.
+
+        Must return a dict with structure:
+            if `has_modes`: {'mode': {'hotkey': 'action'}}
+            else: {'hotkey': 'action'}
         """
         pass
 
