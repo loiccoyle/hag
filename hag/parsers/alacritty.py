@@ -2,12 +2,6 @@ import os
 from pathlib import Path
 from typing import Dict, List
 
-try:
-    import yaml
-except ModuleNotFoundError:
-    print("alacritty config file parsing requires 'pyyaml'.")
-    yaml = None
-
 from ..type_specs import HotkeysWithModes
 from ._base import Parser
 from .sources import Command, File, PythonModule, Web
@@ -60,10 +54,8 @@ class Alacritty(Parser):
         return "\n".join(out)
 
     def parse(self, fetched: Dict[str, List[str]]) -> HotkeysWithModes:
-        if yaml is None:
-            raise ImportError(
-                "'pyyaml' is required to parse the alacritty config file."
-            )
+        import yaml
+
         out = {}
         for source, contents in fetched.items():
             contents = contents[0]
