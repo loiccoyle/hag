@@ -10,7 +10,7 @@
 
 It does so by parsing the config files, man pages, command outputs, ... depending on the software.
 
-## Hotkey parsers
+## ⌨️ Hotkey parsers
 
 Bellow is a list of implemented hotkey parsers:
 
@@ -33,7 +33,7 @@ Bellow is a list of implemented hotkey parsers:
 
 <!-- parsers end -->
 
-## Installation
+## 📦 Installation
 
 `hag` is meant to be minimal, however some parsers require optional dependencies, which can be individually installed:
 
@@ -53,7 +53,7 @@ If you just want to use the CLI interface, consider using [`pipx`](https://githu
 pipx install 'hag[all]'
 ```
 
-## Usage
+## 📖 Usage
 
 <!-- help start -->
 
@@ -81,7 +81,7 @@ optional arguments:
 
 <!-- help end -->
 
-### Examples
+### 🔎 Examples
 
 A few example uses:
 
@@ -102,6 +102,6 @@ A few example uses:
   parser="$(hag -le | rofi -dmenu)" && hag "$parser" | rofi -dmenu
   ```
 
-# Contributing
+# 🥳 Contributing
 
 If you want to add support for your favourite software, feel free to open issues/PRs!
