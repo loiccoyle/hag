@@ -1,42 +1,28 @@
-import os
-import re
-from pathlib import Path
+from typing import Dict, List
 
-from ..type_specs import Hotkeys
+from ..type_specs import HotkeysWithModes
 from ._base import Parser
-from .sources import Command, File
-
-# TODO: Look into accessing the libmpv interface to get the keys
-# https://mpv.io/manual/master/#command-interface-input-bindings
+from .sources import Command, PythonModule
 
 
 class Mpv(Parser):
-    required = bool(Command("mpv"))
-    sources = {
-        "system": [
-            File("/usr/share/doc/mpv/input.conf"),
-            File("/etc/mpv/input.conf"),
-            File("/usr/local/etc/mpv/input.conf"),
-        ],
-        "user": [File(Path(os.environ["XDG_CONFIG_HOME"]) / "mpv" / "input.conf")],
-    }
-    has_modes = False
+    required = all([Command("mpv"), PythonModule("mpv")])
+    has_modes = True
 
-    @staticmethod
-    def _clean_action(string):
-        # replace whitespaces with space
-        string = re.sub(r"\s+", " ", string)
-        return string
+    def fetch(self) -> List[Dict[str, str]]:
+        import mpv
 
-    def parse(self, fetched) -> Hotkeys:
+        player = mpv.MPV()  # type: ignore
+        out = player.input_bindings
+        player.terminate()
+        return out
+
+    def parse(self, fetched: List[Dict[str, str]]) -> HotkeysWithModes:
         out = {}
-        content_key_action = re.compile(r"^#(\S+)\s+(.*)\n", re.MULTILINE)
-        # remove this stray line to make the regex easier
-        line_remove = re.compile(r"#default-bindings.*")
-        # parse all the fetched files
-        for content in sum(fetched.values(), []):
-            if content:
-                content = re.sub(line_remove, "", content)
-                for match in re.finditer(content_key_action, content):
-                    out[match[1]] = self._clean_action(match[2])
+        for binding in fetched:
+            if binding["section"] not in out:
+                out[binding["section"]] = {}
+            out[binding["section"]][binding["key"]] = binding.get(
+                "comment", binding.get("cmd")
+            )
         return out

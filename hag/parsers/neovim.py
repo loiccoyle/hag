@@ -7,8 +7,7 @@ from .vim import MODE_MAP
 
 
 class Neovim(Parser):
-    required = bool(Command("nvim"))
-    sources = {"user": [PythonModule("pynvim")]}
+    required = all([Command("nvim"), PythonModule("pynvim")])
     has_modes = True
 
     def fetch(self) -> List[Dict[str, str]]:
