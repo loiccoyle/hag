@@ -7,7 +7,7 @@ from .vim import MODE_MAP
 
 
 class Neovim(Parser):
-    required = [Command("nvim")]
+    required = bool(Command("nvim"))
     sources = {"user": [PythonModule("pynvim")]}
     has_modes = True
 

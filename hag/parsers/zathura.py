@@ -6,7 +6,7 @@ from .sources import Command, Manpage
 
 
 class Zathura(SectionParse, Parser):
-    required = [Command("zathura")]
+    required = bool(Command("zathura"))
     sources = {"default": [Manpage("zathura")]}
     has_modes = True
 

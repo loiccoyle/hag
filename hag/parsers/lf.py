@@ -8,7 +8,7 @@ from .sources import Command, File
 
 
 class Lf(Parser):
-    required = [Command("lf")]
+    required = bool(Command("lf"))
     sources = {
         "default": [Command("lf -doc")],
         "user": [File(Path(os.environ["XDG_CONFIG_HOME"]) / "lf" / "lfrc")],

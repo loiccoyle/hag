@@ -8,7 +8,7 @@ from .sources import Command, File, PythonModule, Web
 
 
 class Alacritty(Parser):
-    required = [Command("alacritty"), PythonModule("pyyaml")]
+    required = all([Command("alacritty"), PythonModule("yaml")])
     sources = {
         "default": [File(Path("/usr/share/doc/alacritty/example/alacritty.yml"))],
         "default_web": [

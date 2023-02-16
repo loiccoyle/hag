@@ -4,7 +4,7 @@ from .sources import PythonModule
 
 
 class Vimiv(Parser):
-    required = [PythonModule("vimiv")]
+    required = bool(PythonModule("vimiv"))
     has_modes = True
 
     def fetch(self) -> HotkeysWithModes:

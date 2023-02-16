@@ -6,7 +6,7 @@ from .sources import PythonModule
 
 
 class Qutebrowser(Parser):
-    required = [PythonModule("qutebrowser")]
+    required = bool(PythonModule("qutebrowser"))
     has_modes = True
 
     def fetch(self) -> HotkeysWithModes:

@@ -8,7 +8,7 @@ from .sources import Command, File
 
 
 class Sxhkd(Parser):
-    required = [Command("sxhkd")]
+    required = bool(Command("sxhkd"))
     sources = {
         "user": [
             File(

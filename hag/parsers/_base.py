@@ -9,12 +9,14 @@ from .sources import SourceBase
 class Parser:
     has_modes: Optional[bool] = None
     sources: Optional[Dict[str, List[SourceBase]]] = None
-    required: Optional[List[SourceBase]] = None
+    required: Optional[bool] = None
 
     def __init__(self):
         if self.required is not None:
-            if not any([source.check() for source in self.required]):
-                raise OSError(f"No checks of {self.required} succeeded.")
+            if not self.required:
+                raise OSError(
+                    f"Requirements for parsing '{self.__class__.__name__}' not fulfilled."
+                )
 
     def fetch(self) -> Dict[str, List[str]]:
         if self.sources is None:
@@ -22,7 +24,7 @@ class Parser:
 
         out = {}
         for k, sources in self.sources.items():
-            out[k] = [source.fetch() for source in sources if source.check()]
+            out[k] = [source.fetch() for source in sources if source]
         return out
 
     @abstractmethod

@@ -20,7 +20,7 @@ MODE_MAP = {
 
 
 class Vim(Parser):
-    required = [Command("vim")]
+    required = bool(Command("vim"))
     # map won't show autocmd added hotkeys
     sources = {
         "user": [

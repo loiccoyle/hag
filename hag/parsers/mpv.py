@@ -11,7 +11,7 @@ from .sources import Command, File
 
 
 class Mpv(Parser):
-    required = [Command("mpv")]
+    required = bool(Command("mpv"))
     sources = {
         "system": [
             File("/usr/share/doc/mpv/input.conf"),

@@ -6,7 +6,7 @@ from .sources import Command, Manpage
 
 
 class Termite(Parser):
-    required = [Command("termite")]
+    required = bool(Command("termite"))
     sources = {"default": [Manpage("termite")]}
     has_modes = True
 

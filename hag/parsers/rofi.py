@@ -6,7 +6,7 @@ from .sources import Command
 
 
 class Rofi(Parser):
-    required = [Command("rofi")]
+    required = bool(Command("rofi"))
     sources = {"user": [Command("rofi -dump-config")]}
     has_modes = False
 

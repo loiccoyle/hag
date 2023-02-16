@@ -16,7 +16,7 @@ class SourceBase:
         pass
 
     @abstractmethod
-    def check(self) -> bool:
+    def __bool__(self) -> bool:
         pass
 
 
@@ -25,7 +25,7 @@ class PythonModule(SourceBase):
         self.module_name = module_name
         self._module = None
 
-    def check(self) -> bool:
+    def __bool__(self) -> bool:
         try:
             importlib.import_module(self.module_name)
         except ModuleNotFoundError:
@@ -43,7 +43,7 @@ class Command(SourceBase):
     def fetch(self) -> str:
         return subprocess.check_output(self.source).decode("utf8")
 
-    def check(self) -> bool:
+    def __bool__(self) -> bool:
         return which(self.source[0]) is not None
 
     def __repr__(self) -> str:
@@ -60,7 +60,7 @@ class File(SourceBase):
         with open(self.source, "r") as fp:
             return fp.read()
 
-    def check(self) -> bool:
+    def __bool__(self) -> bool:
         return self.source.is_file()
 
     def __repr__(self) -> str:
@@ -79,7 +79,7 @@ class Manpage(SourceBase):
         with gzip.open(man_page_path, "rb") as gfp:
             return gfp.read().decode("utf8")
 
-    def check(self) -> bool:
+    def __bool__(self) -> bool:
         all_pages = (
             subprocess.check_output(["man", "-k", "."]).decode("utf8").split("\n")
         )
@@ -99,7 +99,7 @@ class Web(SourceBase):
         contents = f.read().decode("utf8")
         return contents
 
-    def check(self) -> bool:
+    def __bool__(self) -> bool:
         f = request.urlopen(self.source)
         return f.code == 200
 

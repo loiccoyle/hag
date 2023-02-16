@@ -8,7 +8,7 @@ from .sources import Command, File, Manpage
 
 
 class Sxiv(Parser):
-    required = [Command("sxiv")]
+    required = bool(Command("sxiv"))
     sources = {
         "default": [Manpage("sxiv")],
         "key_handler": [
