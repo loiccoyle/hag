@@ -16,6 +16,7 @@ Bellow is a list of implemented hotkey parsers:
 
 <!-- parsers start -->
 
+alacritty config file parsing requires 'pyyaml'.
 - Alacritty
 - Lf
 - Mpv
@@ -52,6 +53,7 @@ pipx install hag
 
 ```
 $ hag -h
+alacritty config file parsing requires 'pyyaml'.
 usage: hag [-h] [-lp | -ld] [-d {json,text}] [-m MODE] [-v]
            [{alacritty,lf,mpv,neovim,qutebrowser,rofi,sxhkd,sxiv,termite,vim,vimiv,zathura,zsh}]
 
