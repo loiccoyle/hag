@@ -6,7 +6,8 @@ from ..type_specs import Hotkeys
 from ._base import Parser
 from .sources import Command, File
 
-# need to add custom config bindings
+# TODO: Look into accessing the libmpv interface to get the keys
+# https://mpv.io/manual/master/#command-interface-input-bindings
 
 
 class Mpv(Parser):

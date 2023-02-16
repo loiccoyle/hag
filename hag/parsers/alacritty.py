@@ -12,6 +12,8 @@ from ..type_specs import HotkeysWithModes
 from ._base import Parser
 from .sources import Command, File, PythonModule, Web
 
+# TODO: switch to reading the file at /usr/share/doc/alacritty/example/alacritty.yml
+
 
 class Alacritty(Parser):
     required = [Command("alacritty"), PythonModule("pyyaml")]

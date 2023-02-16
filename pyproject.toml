@@ -15,7 +15,11 @@ keywords = ["hotkey", "aggregator", "cli"]
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
-pyyaml = {version = "^6.0", extras = ["yaml"]}
+pyyaml = {version = "^6.0", optional = true}
+
+[tool.poetry.extras]
+alacritty = ["pyyaml"]
+all = ["pyyaml"]
 
 [tool.poetry.dev-dependencies]
 
