@@ -8,11 +8,11 @@ class Text(Display):
         if self.has_modes and modes is not None:
             if not (isinstance(modes, list)):
                 modes = [modes]
-            hk_dict = {mode: self.hk_dict[mode] for mode in modes}
+            hotkeys = {mode: self.hotkeys[mode] for mode in modes}
         else:
-            hk_dict = self.hk_dict
+            hotkeys = self.hotkeys
 
-        for k, v in hk_dict.items():
+        for k, v in hotkeys.items():
             if isinstance(v, dict):
                 for key, action in v.items():
                     print(f"{k}: {key}: {action}")
@@ -25,7 +25,7 @@ class Json(Display):
         if self.has_modes and modes is not None:
             if not (isinstance(modes, list)):
                 modes = [modes]
-            hk_dict = {mode: self.hk_dict[mode] for mode in modes}
+            hotkeys = {mode: self.hotkeys[mode] for mode in modes}
         else:
-            hk_dict = self.hk_dict
-        print(json.dumps(hk_dict))
+            hotkeys = self.hotkeys
+        print(json.dumps(hotkeys))
