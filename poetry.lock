@@ -221,10 +221,11 @@ files = [
 
 [extras]
 alacritty = ["pyyaml"]
-all = ["pyyaml", "python-mpv"]
+all = ["pyyaml", "python-mpv", "pynvim"]
 mpv = ["python-mpv"]
+neovim = ["pynvim"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "964ddfa04040d11664e122e7557580dc14126d992997fdb924cddb7ef4489805"
+content-hash = "5e23d35e7b38514668407a3e4f0e3a61650fa07d2df7aad4d4f817c4b29c69d5"
