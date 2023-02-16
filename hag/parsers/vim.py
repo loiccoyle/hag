@@ -4,32 +4,33 @@ from ..type_specs import HotkeysWithModes
 from ._base import Parser
 from .sources import Command
 
+MODE_MAP = {
+    " ": "Normal, Visual, Select, Operator-pending",
+    "n": "Normal",
+    "v": "Visual, Select",
+    "s": "Select",
+    "x": "Visual",
+    "o": "Operator-pending",
+    "!": "Insert, Command-line",
+    "i": "Insert",
+    "l": '":lmap" mappings for Insert, Command-line and Lang-Arg',
+    "c": "Command-line",
+    "t": "Terminal-Job",
+}
+
 
 class Vim(Parser):
     required = [Command("vim")]
     # map won't show autocmd added hotkeys
     sources = {
         "user": [
-            Command(f'vim -e +"redir >> /dev/stdout | map | redir END" -scq'),
+            Command('vim -e +"redir >> /dev/stdout | map | redir END" -scq'),
         ]
     }
     has_modes = True
 
     def parse(self, fetched) -> HotkeysWithModes:
         # convert vim mode notation to human, from :help map
-        mode_map = {
-            " ": "Normal, Visual, Select, Operator-pending",
-            "n": "Normal",
-            "v": "Visual, Select",
-            "s": "Select",
-            "x": "Visual",
-            "o": "Operator-pending",
-            "!": "Insert, Command-line",
-            "i": "Insert",
-            "l": '":lmap" mappings for Insert, Command-line and Lang-Arg',
-            "c": "Command-line",
-            "t": "Terminal-Job",
-        }
         content = fetched["user"][0]
         # get the key/action
         content_key_action = re.compile(r"(.)\s+(\S+)\s+[@\&\*]?\s*(.*?)\n")
@@ -38,9 +39,9 @@ class Vim(Parser):
             key = match[2]
             # remove <Plug> keys
             if not key.startswith("<Plug>"):
-                mode = mode_map[match[1]]
+                mode = MODE_MAP[match[1]]
                 action = match[3]
-                if not mode in out.keys():
+                if mode not in out.keys():
                     out[mode] = {}
                 out[mode][key] = action
         return out
