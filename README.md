@@ -90,7 +90,7 @@ A few example uses:
   ```sh
   hag vim -m Normal -m Visual | rofi -dmenu
   ```
-- Use `rofi` to select software and show hotkeys:
+- Use `rofi` to select hotkey parser and show hotkeys:
   ```sh
   parser="$(hag -le | rofi -dmenu)" && hag "$parser" | rofi -dmenu
   ```
