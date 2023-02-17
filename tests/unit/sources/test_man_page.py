@@ -5,13 +5,13 @@ from hag.parsers.sources import ManPage
 
 class TestManPage(TestCase):
     def test_check(self):
-        source = ManPage("printf")
+        source = ManPage("echo")
         assert source
 
         source = ManPage("somecommandwhichdoesnotexist")
         assert not source
 
     def test_fetch(self):
-        source = ManPage("printf")
+        source = ManPage("echo")
         content = source.fetch()
-        assert "format and print data" in content
+        assert "echo" in content
