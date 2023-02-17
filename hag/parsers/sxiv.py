@@ -1,6 +1,7 @@
 import os
 import re
 from pathlib import Path
+from typing import Dict, List
 
 from ..type_specs import HotkeysWithModes
 from ._base import Parser
@@ -23,14 +24,14 @@ class Sxiv(Parser):
     has_modes = True
 
     @staticmethod
-    def _clean_action(string):
+    def _clean_action(string: str) -> str:
         return string.replace("\n", " ").strip()
 
     @staticmethod
-    def _clean_key(string):
+    def _clean_key(string: str) -> str:
         return string.replace(r"\-", "-").strip()
 
-    def parse(self, fetched) -> HotkeysWithModes:
+    def parse(self, fetched: Dict[str, List[str]]) -> HotkeysWithModes:
         content = fetched["default"][0]
         # to select section from manpage
         content_section = re.compile(r"\.SH KEYBOARD COMMANDS.*?\.SH", re.DOTALL)

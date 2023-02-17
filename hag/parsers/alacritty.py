@@ -32,7 +32,7 @@ class Alacritty(Parser):
     has_modes = True
 
     @staticmethod
-    def _format_key(bind) -> str:
+    def _format_key(bind: Dict[str, str]) -> str:
         if "mods" in bind:
             return f"{bind.get('mods', '').replace('|', '+')}+{bind['key']}"
         else:
@@ -62,6 +62,7 @@ class Alacritty(Parser):
                 contents = self._clean_default(contents)
             config_yml = yaml.safe_load(contents)
             for bind in config_yml["key_bindings"]:
+                bind: Dict[str, str]
                 mode = bind.get("mode", "normal")
                 if mode not in out:
                     out[mode] = {}

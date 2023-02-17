@@ -1,6 +1,7 @@
 import os
 import re
 from pathlib import Path
+from typing import Dict, List
 
 from ..type_specs import Hotkeys
 from ._base import Parser
@@ -21,7 +22,7 @@ class Lf(Parser):
     }
     has_modes = False
 
-    def parse(self, fetched) -> Hotkeys:
+    def parse(self, fetched: Dict[str, List[str]]) -> Hotkeys:
         content_clean = re.compile(r".*?((boolean)|(string)|(integer)).*\n")
         content_section = re.compile(r"Reference.*?Configuration", re.DOTALL)
         default_key_action = re.compile(r"\s*(.*?)\s*\(default (.*)\)")

@@ -1,10 +1,11 @@
 import re
+from typing import Dict, List
 
 from ..type_specs import HotkeysWithModes
 from ._base import Parser
 from .sources import Command
 
-MODE_MAP = {
+MODE_MAP: Dict[str, str] = {
     " ": "Normal, Visual, Select, Operator-pending",
     "n": "Normal",
     "v": "Visual, Select",
@@ -29,7 +30,7 @@ class Vim(Parser):
     }
     has_modes = True
 
-    def parse(self, fetched) -> HotkeysWithModes:
+    def parse(self, fetched: Dict[str, List[str]]) -> HotkeysWithModes:
         # convert vim mode notation to human, from :help map
         content = fetched["user"][0]
         # get the key/action

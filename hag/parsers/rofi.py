@@ -1,4 +1,5 @@
 import re
+from typing import Dict, List
 
 from ..type_specs import Hotkeys
 from ._base import Parser
@@ -15,7 +16,7 @@ class Rofi(Parser):
         string = string.lstrip()[1:-1]
         return string
 
-    def parse(self, fetched) -> Hotkeys:
+    def parse(self, fetched: Dict[str, List[str]]) -> Hotkeys:
         content_key_action = re.compile(r".*?(((kb)|(ml)|(me))-.*?):\s+\"(.*?)\"")
         content = fetched["user"][0]
         out = {}

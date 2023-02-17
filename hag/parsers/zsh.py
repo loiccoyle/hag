@@ -1,3 +1,5 @@
+from typing import Dict, List
+
 from ..type_specs import Hotkeys
 from ._base import Parser
 from .sources import Command
@@ -10,11 +12,11 @@ class Zsh(Parser):
     has_modes = False
 
     @staticmethod
-    def _clean_key(string: str):
+    def _clean_key(string: str) -> str:
         string = string.replace('"', "")
         return string
 
-    def parse(self, fetched) -> Hotkeys:
+    def parse(self, fetched: Dict[str, List[str]]) -> Hotkeys:
         content = fetched["user"][0]
         out = {}
         for line in content.split("\n"):

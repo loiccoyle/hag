@@ -1,4 +1,5 @@
 import re
+from typing import Dict, List
 
 from ..type_specs import HotkeysWithModes
 from ._base import Parser
@@ -10,7 +11,7 @@ class Termite(Parser):
     sources = {"default": [ManPage("termite")]}
     has_modes = True
 
-    def parse(self, fetched) -> HotkeysWithModes:
+    def parse(self, fetched: Dict[str, List[str]]) -> HotkeysWithModes:
         content = fetched["default"][0]
         # remove some stray groff tags
         content_clean = re.compile(r"(\\f[PBI])")

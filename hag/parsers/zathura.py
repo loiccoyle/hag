@@ -1,4 +1,5 @@
 import re
+from typing import Dict, List
 
 from ..type_specs import HotkeysWithModes
 from ._base import Parser, SectionParse
@@ -11,18 +12,18 @@ class Zathura(SectionParse, Parser):
     has_modes = True
 
     @staticmethod
-    def _clean_action(string):
+    def _clean_action(string: str) -> str:
         string = string.replace("\\fB", "").replace("\\fP", "")
         string = string.replace("\\-", "-")
         string = string[: string.index("\n")] + "."
         return string
 
     @staticmethod
-    def _clean_key(string):
+    def _clean_key(string: str) -> str:
         string = string.replace("\\-", "-").replace("\\(aq", "'")
         return string
 
-    def parse(self, fetched) -> HotkeysWithModes:
+    def parse(self, fetched: Dict[str, List[str]]) -> HotkeysWithModes:
         content = fetched["default"][0]
         # select section from manpage
         content_section = re.compile(r"\.SH MOUSE AND KEY BINDINGS.*?\.SH", re.DOTALL)
