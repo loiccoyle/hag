@@ -12,7 +12,12 @@ class Sxiv(Parser):
     sources = {
         "default": [ManPage("sxiv")],
         "key_handler": [
-            File(Path(os.environ["XDG_CONFIG_HOME"]) / "sxiv" / "exec" / "key-handler")
+            File(
+                Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / "/.config"))
+                / "sxiv"
+                / "exec"
+                / "key-handler"
+            )
         ],
     }
     has_modes = True

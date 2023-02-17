@@ -12,7 +12,11 @@ class Sioyek(Parser):
     sources = {
         "system": [File(Path("/etc/sioyek/keys.config"))],
         "user": [
-            File(Path(os.environ["XDG_CONFIG_HOME"]) / "sioyek" / "keys_user.config")
+            File(
+                Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
+                / "sioyek"
+                / "keys_user.config"
+            )
         ],
     }
     has_modes = False
