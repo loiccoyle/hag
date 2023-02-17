@@ -1,6 +1,7 @@
 <h1 align="center">hag</h1>
 <h5 align="center">A Hotkey AGgregator.</h5>
 <p align="center">
+  <a href="https://github.com/loiccoyle/hag/actions/workflows/ci.yml"><img src="https://github.com/loiccoyle/hag/actions/workflows/ci.yml/badge.svg"></a>
   <a href="https://pypi.org/project/hag/"><img src="https://img.shields.io/pypi/v/hag"></a>
   <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <img src="https://img.shields.io/badge/platform-linux-informational">
