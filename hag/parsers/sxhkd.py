@@ -15,7 +15,7 @@ class Sxhkd(Parser):
                 Path(
                     os.environ.get(
                         "XDG_CONFIG_HOME",
-                        Path(os.environ["HOME"]) / ".config",
+                        Path.home() / ".config",
                     )
                 )
                 / "sxhkd"

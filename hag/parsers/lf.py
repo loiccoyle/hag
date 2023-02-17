@@ -11,7 +11,13 @@ class Lf(Parser):
     required = bool(Command("lf"))
     sources = {
         "default": [Command("lf -doc")],
-        "user": [File(Path(os.environ["XDG_CONFIG_HOME"]) / "lf" / "lfrc")],
+        "user": [
+            File(
+                Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
+                / "lf"
+                / "lfrc"
+            )
+        ],
     }
     has_modes = False
 
