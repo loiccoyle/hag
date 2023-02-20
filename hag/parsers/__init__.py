@@ -1,6 +1,7 @@
 from .alacritty import Alacritty
 from .bash import Bash
 from .gimp import Gimp
+from .inkscape import Inkscape
 from .lf import Lf
 from .mpv import Mpv
 from .neovim import Neovim
@@ -19,6 +20,7 @@ __all__ = [
     "Alacritty",
     "Bash",
     "Gimp",
+    "Inkscape",
     "Lf",
     "Mpv",
     "Neovim",
