@@ -12,10 +12,10 @@ class Mpv(Parser):
     def fetch(self) -> List[Dict[str, str]]:
         import mpv
 
-        player = mpv.MPV()  # type: ignore
+        player = mpv.MPV()
         out = player.input_bindings
         player.terminate()
-        return out
+        return out  # type: ignore
 
     def parse(self, fetched: List[Dict[str, str]]) -> HotkeysWithModes:
         out = {}
