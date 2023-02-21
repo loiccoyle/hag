@@ -1,14 +1,9 @@
 import json
 
-from ._base import Display
+from ._base import Display, DisplayText
 
 
-class Json(Display):
-    def show(self, modes=None):
-        if self.parser.has_modes and modes is not None:
-            if not (isinstance(modes, list)):
-                modes = [modes]
-            hotkeys = {mode: self.hotkeys[mode] for mode in modes}
-        else:
-            hotkeys = self.hotkeys
-        print(json.dumps(hotkeys))
+class Json(DisplayText, Display):
+    def format(self, modes=None) -> str:
+        hotkeys = self.parse_modes(modes)
+        return json.dumps(hotkeys)

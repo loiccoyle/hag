@@ -1,9 +1,9 @@
 from datetime import date
 
-from ._base import Display
+from ._base import Display, DisplayText
 
 
-class Roff(Display):
+class Roff(DisplayText, Display):
     def header(self) -> str:
         parser_name = self.parser.__class__.__name__
         header = f"""\
@@ -11,21 +11,17 @@ class Roff(Display):
 .SH {parser_name} Hotkeys"""
         return header
 
-    def show(self, modes=None):
-        if self.parser.has_modes and modes is not None:
-            if not (isinstance(modes, list)):
-                modes = [modes]
-            hotkeys = {mode: self.hotkeys[mode] for mode in modes}
-        else:
-            hotkeys = self.hotkeys
-        print(self.header())
+    def format(self, modes=None) -> str:
+        hotkeys = self.parse_modes(modes)
+        out = [self.header()]
 
         for k, v in hotkeys.items():
             if isinstance(v, dict):
-                print(f".SS {k}")
+                out.append(f".SS {k}")
                 for key, action in v.items():
-                    print(".TP")
-                    print(rf"\fB{key}\fR {action}")
+                    out.append(".TP")
+                    out.append(rf"\fB{key}\fR {action}")
             else:
-                print(".TP")
-                print(rf"\fB{k}\fR {v}")
+                out.append(".TP")
+                out.append(rf"\fB{k}\fR {v}")
+        return "\n".join(out)

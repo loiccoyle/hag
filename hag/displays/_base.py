@@ -1,8 +1,10 @@
 from abc import abstractmethod
-from typing import List, Optional, Union
+from typing import Any, List, Optional, Union
 
 from ..parsers._base import Parser
 from ..type_specs import Hotkeys, HotkeysWithModes
+
+DisplayContent = Any
 
 
 class Display:
@@ -14,11 +16,36 @@ class Display:
         self.hotkeys = hotkeys
         self.parser = parser
 
+    def parse_modes(
+        self, modes: Optional[Union[List[str], str]]
+    ) -> Union[Hotkeys, HotkeysWithModes]:
+        """Filter the hotkeys based on the requested modes."""
+        if self.parser.has_modes and modes is not None:
+            if not (isinstance(modes, list)):
+                modes = [modes]
+            return {mode: self.hotkeys[mode] for mode in modes}  # type: ignore
+        else:
+            return self.hotkeys
+
     @abstractmethod
-    def show(self, modes: Optional[Union[List[str], str]] = None):
+    def format(self, modes: Optional[Union[List[str], str]] = None) -> DisplayContent:
+        """Format the hotkeys for display."""
+        pass
+
+    @abstractmethod
+    def show(self, content: DisplayContent) -> None:
         """Display the hotkeys.
 
         Args:
-            modes: mode filter if `has_modes` is True.
+            content: the content to display.
         """
         pass
+
+
+class DisplayText:
+    @abstractmethod
+    def format(self, modes: Optional[Union[List[str], str]] = None) -> str:
+        pass
+
+    def show(self, content: str) -> None:
+        print(content)

@@ -81,7 +81,7 @@ def main():
         hotkeys = parser.parse(fetched)
         # display
         display: DisplayType = Display(hotkeys, parser)
-        display.show(modes=args.modes)
+        display.show(display.format(modes=args.modes))
 
 
 if __name__ == "__main__":

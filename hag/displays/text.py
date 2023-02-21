@@ -1,18 +1,15 @@
-from ._base import Display
+from ._base import Display, DisplayText
 
 
-class Text(Display):
-    def show(self, modes=None):
-        if self.parser.has_modes and modes is not None:
-            if not (isinstance(modes, list)):
-                modes = [modes]
-            hotkeys = {mode: self.hotkeys[mode] for mode in modes}
-        else:
-            hotkeys = self.hotkeys
+class Text(DisplayText, Display):
+    def format(self, modes=None) -> str:
+        hotkeys = self.parse_modes(modes)
 
+        out = []
         for k, v in hotkeys.items():
             if isinstance(v, dict):
                 for key, action in v.items():
-                    print(f"{k}: {key}: {action}")
+                    out.append(f"{k}: {key}: {action}")
             else:
-                print(f"{k}: {v}")
+                out.append(f"{k}: {v}")
+        return "\n".join(out)
