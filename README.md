@@ -63,7 +63,7 @@ pipx install 'hag[all]'
 
 ```
 $ hag -h
-usage: hag [-h] [-lp | -ld] [-d {json,text}] [-m MODE] [-v]
+usage: hag [-h] [-lp | -ld] [-d {json,roff,text}] [-m MODE] [-v]
            [{alacritty,bash,gimp,inkscape,lf,mpv,neovim,qutebrowser,rofi,sioyek,sxhkd,sxiv,termite,vim,vimiv,zathura,zsh}]
 
 Hotkey aggregator. All your hotkeys in one place.
@@ -76,7 +76,7 @@ optional arguments:
   -h, --help            show this help message and exit
   -lp, --list-parsers   List available hotkey parsers.
   -ld, --list-displays  List available display methods.
-  -d {json,text}, --display {json,text}
+  -d {json,roff,text}, --display {json,roff,text}
                         Display method.
   -m MODE, --modes MODE
                         Filter by mode, if supported by parser.
