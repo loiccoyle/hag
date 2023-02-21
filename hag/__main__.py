@@ -2,6 +2,8 @@ import argparse
 import sys
 
 from . import __version__, displays, parsers
+from .displays._base import Display as DisplayType
+from .parsers._base import Parser as ParserType
 
 
 def main():
@@ -58,11 +60,11 @@ def main():
         for i in displays.__all__:
             print(i.lower())
     elif args.list_parsers:
-        for parser in parsers.__all__:
+        for parser_name in parsers.__all__:
             try:
                 # if the install check passes
-                getattr(parsers, parser)()
-                print(parser.lower())
+                getattr(parsers, parser_name)()
+                print(parser_name.lower())
             except OSError:
                 pass
     else:
@@ -74,11 +76,12 @@ def main():
         Display = getattr(displays, args.display.title())
 
         # load hotkeys
-        parser = Parser()
+        parser: ParserType = Parser()
         fetched = parser.fetch()
         hotkeys = parser.parse(fetched)
         # display
-        Display(hotkeys, has_modes=parser.has_modes).show(modes=args.modes)
+        display: DisplayType = Display(hotkeys, parser)
+        display.show(modes=args.modes)
 
 
 if __name__ == "__main__":

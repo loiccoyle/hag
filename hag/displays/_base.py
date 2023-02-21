@@ -1,13 +1,18 @@
 from abc import abstractmethod
 from typing import List, Optional, Union
 
+from ..parsers._base import Parser
 from ..type_specs import Hotkeys, HotkeysWithModes
 
 
 class Display:
-    def __init__(self, hotkeys: Union[HotkeysWithModes, Hotkeys], has_modes: bool):
+    def __init__(
+        self,
+        hotkeys: Union[HotkeysWithModes, Hotkeys],
+        parser: Parser,
+    ):
         self.hotkeys = hotkeys
-        self.has_modes = has_modes
+        self.parser = parser
 
     @abstractmethod
     def show(self, modes: Optional[Union[List[str], str]] = None):
