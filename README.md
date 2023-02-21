@@ -105,6 +105,14 @@ A few example uses:
   ```sh
   parser="$(hag -le | rofi -dmenu)" && hag "$parser" | rofi -dmenu
   ```
+- List your normal and visual mode `neovim` hotkeys in a man page:
+  ```sh
+  hag neovim -m Normal -m Visual -d roff | man -l -
+  ```
+- Create a pdf of your `sxhkd` hotkeys:
+  ```sh
+  hag sxhkd -d roff | groff -T ps -m mandoc - | ps2pdf - hotkeys.pdf
+  ```
 
 # 🥳 Contributing
 
